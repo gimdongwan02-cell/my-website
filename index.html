@@ -1,664 +1,353 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>PIN 입력 연습</title>
-
-<style>
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-}
-
-/* 로딩 화면 */
-#loading {
-  height: 100vh;
-  text-align: center;
-  padding-top: 100px;
-  background: white;
-}
-
-#loading h1 {
-  font-size: 32px;
-}
-
-.spinner {
-  width: 45px;
-  height: 45px;
-  border: 5px solid #ddd;
-  border-top: 5px solid #555;
-  border-radius: 50%;
-  margin: 100px auto 20px;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-/* PIN 화면 */
-#pinPage {
-  display: none;
-  min-height: 100vh;
-  background: #eef6ff;
-  text-align: center;
-  padding-top: 180px;
-}
-
-#pinPage h1 {
-  font-size: 30px;
-  font-weight: 400;
-  line-height: 1.5;
-}
-
-/* 점 */
-.dots {
-  margin: 55px 0 40px;
-}
-
-.dot {
-  display: inline-block;
-  width: 30px;
-  height: 30px;
-  margin: 0 6px;
-  background: #d5d9df;
-  border-radius: 50%;
-}
-
-.dot.active {
-  background: #333;
-}
-
-/* 숫자판 */
-#numbers {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  background: white;
-}
-
-button {
-  height: 90px;
-  border: 1px solid #ddd;
-  background: white;
-  font-size: 32px;
-  color: #27344d;
-}
-
-button:active {
-  background: #ddd;
-}
-
-.delete {
-  font-size: 24px;
-}
-
-.clear {
-  font-size: 20px;
-}
-</style>
-</head>
-
-<body>
-
-<!-- 로딩 -->
-<div id="loading">
-  <h1>모바일 신분증</h1>
-
-  <div class="spinner"></div>
-
-  <p>로딩 중...</p>
-</div>
-
-
-<!-- PIN 화면 -->
-<div id="pinPage">
-
-  <h1>
-    연습용 PIN<br>
-    6자리를 입력하세요.
-  </h1>
-
-  <div class="dots">
-    <span class="dot"></span>
-    <span class="dot"></span>
-    <span class="dot"></span>
-    <span class="dot"></span>
-    <span class="dot"></span>
-    <span class="dot"></span>
-  </div>
-
-</div>
-
-
-<!-- 숫자 키패드 -->
-<div id="numbers">
-
-  <button onclick="press(1)">1</button>
-  <button onclick="press(2)">2</button>
-  <button onclick="press(3)">3</button>
-
-  <button onclick="press(4)">4</button>
-  <button onclick="press(5)">5</button>
-  <button onclick="press(6)">6</button>
-
-  <button onclick="press(7)">7</button>
-  <button onclick="press(8)">8</button>
-  <button onclick="press(9)">9</button>
-
-  <button class="delete" onclick="backspace()">⌫</button>
-  <button onclick="press(0)">0</button>
-  <button class="clear" onclick="clearAll()">전체삭제</button>
-
-</div>
-
-
-<script>
-
-let pin = "";
-
-function press(number) {
-
-  if (pin.length < 6) {
-    pin += number;
-    updateDots();
-  }
-
-}
-
-function backspace() {
-
-  pin = pin.slice(0, -1);
-  updateDots();
-
-}
-
-function clearAll() {
-
-  pin = "";
-  updateDots();
-
-}
-
-function updateDots() {
-
-  const dots = document.querySelectorAll(".dot");
-
-  dots.forEach(function(dot, index) {
-
-    if (index < pin.length) {
-      dot.classList.add("active");
-    } else {
-      dot.classList.remove("active");
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>모바일 신분증</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     }
 
-  });
-
-}
-
-
-/* 3초 후 PIN 화면 */
-setTimeout(function() {
-
-  document.getElementById("loading").style.display = "none";
-  document.getElementById("pinPage").style.display = "block";
-
-}, 3000);
-
-</script>
-
-</body>
-</html><!DOCTYPE html>
-<html lang="ko">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>PIN 입력 연습</title>
-
-<style>
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-}
-
-/* 로딩 화면 */
-#loading {
-  height: 100vh;
-  text-align: center;
-  padding-top: 100px;
-  background: white;
-}
-
-#loading h1 {
-  font-size: 32px;
-}
-
-.spinner {
-  width: 45px;
-  height: 45px;
-  border: 5px solid #ddd;
-  border-top: 5px solid #555;
-  border-radius: 50%;
-  margin: 100px auto 20px;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-/* PIN 화면 */
-#pinPage {
-  display: none;
-  min-height: 100vh;
-  background: #eef6ff;
-  text-align: center;
-  padding-top: 180px;
-}
-
-#pinPage h1 {
-  font-size: 30px;
-  font-weight: 400;
-  line-height: 1.5;
-}
-
-/* 점 */
-.dots {
-  margin: 55px 0 40px;
-}
-
-.dot {
-  display: inline-block;
-  width: 30px;
-  height: 30px;
-  margin: 0 6px;
-  background: #d5d9df;
-  border-radius: 50%;
-}
-
-.dot.active {
-  background: #333;
-}
-
-/* 숫자판 */
-#numbers {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  background: white;
-}
-
-button {
-  height: 90px;
-  border: 1px solid #ddd;
-  background: white;
-  font-size: 32px;
-  color: #27344d;
-}
-
-button:active {
-  background: #ddd;
-}
-
-.delete {
-  font-size: 24px;
-}
-
-.clear {
-  font-size: 20px;
-}
-</style>
-</head>
-
-<body>
-
-<!-- 로딩 -->
-<div id="loading">
-  <h1>모바일 신분증</h1>
-
-  <div class="spinner"></div>
-
-  <p>로딩 중...</p>
-</div>
-
-
-<!-- PIN 화면 -->
-<div id="pinPage">
-
-  <h1>
-    연습용 PIN<br>
-    6자리를 입력하세요.
-  </h1>
-
-  <div class="dots">
-    <span class="dot"></span>
-    <span class="dot"></span>
-    <span class="dot"></span>
-    <span class="dot"></span>
-    <span class="dot"></span>
-    <span class="dot"></span>
-  </div>
-
-</div>
-
-
-<!-- 숫자 키패드 -->
-<div id="numbers">
-
-  <button onclick="press(1)">1</button>
-  <button onclick="press(2)">2</button>
-  <button onclick="press(3)">3</button>
-
-  <button onclick="press(4)">4</button>
-  <button onclick="press(5)">5</button>
-  <button onclick="press(6)">6</button>
-
-  <button onclick="press(7)">7</button>
-  <button onclick="press(8)">8</button>
-  <button onclick="press(9)">9</button>
-
-  <button class="delete" onclick="backspace()">⌫</button>
-  <button onclick="press(0)">0</button>
-  <button class="clear" onclick="clearAll()">전체삭제</button>
-
-</div>
-
-
-<script>
-
-let pin = "";
-
-function press(number) {
-
-  if (pin.length < 6) {
-    pin += number;
-    updateDots();
-  }
-
-}
-
-function backspace() {
-
-  pin = pin.slice(0, -1);
-  updateDots();
-
-}
-
-function clearAll() {
-
-  pin = "";
-  updateDots();
-
-}
-
-function updateDots() {
-
-  const dots = document.querySelectorAll(".dot");
-
-  dots.forEach(function(dot, index) {
-
-    if (index < pin.length) {
-      dot.classList.add("active");
-    } else {
-      dot.classList.remove("active");
+    body, html {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: #ffffff;
     }
 
-  });
-
-}
-
-
-/* 3초 후 PIN 화면 */
-setTimeout(function() {
-
-  document.getElementById("loading").style.display = "none";
-  document.getElementById("pinPage").style.display = "block";
-
-}, 3000);
-
-</script>
-
-</body>
-</html><!DOCTYPE html>
-<html lang="ko">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>PIN 입력 연습</title>
-
-<style>
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-}
-
-/* 로딩 화면 */
-#loading {
-  height: 100vh;
-  text-align: center;
-  padding-top: 100px;
-  background: white;
-}
-
-#loading h1 {
-  font-size: 32px;
-}
-
-.spinner {
-  width: 45px;
-  height: 45px;
-  border: 5px solid #ddd;
-  border-top: 5px solid #555;
-  border-radius: 50%;
-  margin: 100px auto 20px;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-/* PIN 화면 */
-#pinPage {
-  display: none;
-  min-height: 100vh;
-  background: #eef6ff;
-  text-align: center;
-  padding-top: 180px;
-}
-
-#pinPage h1 {
-  font-size: 30px;
-  font-weight: 400;
-  line-height: 1.5;
-}
-
-/* 점 */
-.dots {
-  margin: 55px 0 40px;
-}
-
-.dot {
-  display: inline-block;
-  width: 30px;
-  height: 30px;
-  margin: 0 6px;
-  background: #d5d9df;
-  border-radius: 50%;
-}
-
-.dot.active {
-  background: #333;
-}
-
-/* 숫자판 */
-#numbers {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  background: white;
-}
-
-button {
-  height: 90px;
-  border: 1px solid #ddd;
-  background: white;
-  font-size: 32px;
-  color: #27344d;
-}
-
-button:active {
-  background: #ddd;
-}
-
-.delete {
-  font-size: 24px;
-}
-
-.clear {
-  font-size: 20px;
-}
-</style>
-</head>
-
-<body>
-
-<!-- 로딩 -->
-<div id="loading">
-  <h1>모바일 신분증</h1>
-
-  <div class="spinner"></div>
-
-  <p>로딩 중...</p>
-</div>
-
-
-<!-- PIN 화면 -->
-<div id="pinPage">
-
-  <h1>
-    연습용 PIN<br>
-    6자리를 입력하세요.
-  </h1>
-
-  <div class="dots">
-    <span class="dot"></span>
-    <span class="dot"></span>
-    <span class="dot"></span>
-    <span class="dot"></span>
-    <span class="dot"></span>
-    <span class="dot"></span>
-  </div>
-
-</div>
-
-
-<!-- 숫자 키패드 -->
-<div id="numbers">
-
-  <button onclick="press(1)">1</button>
-  <button onclick="press(2)">2</button>
-  <button onclick="press(3)">3</button>
-
-  <button onclick="press(4)">4</button>
-  <button onclick="press(5)">5</button>
-  <button onclick="press(6)">6</button>
-
-  <button onclick="press(7)">7</button>
-  <button onclick="press(8)">8</button>
-  <button onclick="press(9)">9</button>
-
-  <button class="delete" onclick="backspace()">⌫</button>
-  <button onclick="press(0)">0</button>
-  <button class="clear" onclick="clearAll()">전체삭제</button>
-
-</div>
-
-
-<script>
-
-let pin = "";
-
-function press(number) {
-
-  if (pin.length < 6) {
-    pin += number;
-    updateDots();
-  }
-
-}
-
-function backspace() {
-
-  pin = pin.slice(0, -1);
-  updateDots();
-
-}
-
-function clearAll() {
-
-  pin = "";
-  updateDots();
-
-}
-
-function updateDots() {
-
-  const dots = document.querySelectorAll(".dot");
-
-  dots.forEach(function(dot, index) {
-
-    if (index < pin.length) {
-      dot.classList.add("active");
-    } else {
-      dot.classList.remove("active");
+    /* 1. 로딩 화면 */
+    #loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      padding: 40px 20px 20px 20px;
+      z-index: 9999;
     }
 
-  });
+    .loading-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 20px;
+    }
 
-}
+    .loading-header img {
+      height: 32px;
+    }
 
+    .loading-header span {
+      font-size: 22px;
+      font-weight: bold;
+      color: #111;
+    }
 
-/* 3초 후 PIN 화면 */
-setTimeout(function() {
+    .card-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      width: 100%;
+      max-width: 340px;
+      margin: 20px 0;
+    }
 
-  document.getElementById("loading").style.display = "none";
-  document.getElementById("pinPage").style.display = "block";
+    .card-item {
+      background: #f8f9fa;
+      border: 1px solid #e9ecef;
+      border-radius: 8px;
+      padding: 10px;
+      font-size: 11px;
+      color: #333;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+    }
 
-}, 3000);
+    .card-title {
+      font-weight: bold;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
 
-</script>
+    .card-body {
+      background: #e9ecef;
+      height: 40px;
+      border-radius: 4px;
+    }
+
+    .loading-text {
+      text-align: center;
+      margin: 15px 0;
+    }
+
+    .loading-text h2 {
+      font-size: 18px;
+      font-weight: bold;
+      color: #111;
+      margin-bottom: 8px;
+    }
+
+    .loading-text p {
+      font-size: 14px;
+      color: #555;
+      line-height: 1.4;
+    }
+
+    .progress-area {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #888;
+      font-size: 15px;
+      margin-bottom: 20px;
+    }
+
+    .spinner {
+      width: 18px;
+      height: 18px;
+      border: 2px solid #ccc;
+      border-top-color: #666;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .loading-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      max-width: 360px;
+      padding: 0 10px;
+    }
+
+    .loading-footer img {
+      height: 24px;
+    }
+
+    /* 2. 비밀번호 입력 화면 */
+    #main-screen {
+      display: none; /* 처음에 숨김 */
+      width: 100%;
+      height: 100%;
+      background-color: #f2f5f8;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .pin-header {
+      padding-top: 80px;
+      text-align: center;
+    }
+
+    .pin-title {
+      font-size: 19px;
+      font-weight: 600;
+      color: #222;
+      line-height: 1.4;
+      margin-bottom: 25px;
+    }
+
+    .dots-container {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 25px;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      background-color: #d1d5db;
+      border-radius: 50%;
+    }
+
+    .dot.active {
+      background-color: #2563eb;
+    }
+
+    .btn-change-pin {
+      display: inline-block;
+      padding: 6px 16px;
+      border: 1px solid #d1d5db;
+      border-radius: 20px;
+      font-size: 13px;
+      color: #4b5563;
+      background: #fff;
+      margin-bottom: 12px;
+    }
+
+    .btn-bio {
+      font-size: 14px;
+      color: #4b5563;
+      text-decoration: none;
+    }
+
+    /* 키패드 */
+    .keypad {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      background-color: #ffffff;
+    }
+
+    .key {
+      height: 60px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 24px;
+      font-weight: 500;
+      color: #111;
+      border-right: 1px solid #f3f4f6;
+      border-top: 1px solid #f3f4f6;
+      user-select: none;
+    }
+
+    .key:nth-child(3n) {
+      border-right: none;
+    }
+
+    .key:active {
+      background-color: #f3f4f6;
+    }
+
+    .key.action {
+      font-size: 14px;
+      color: #4b5563;
+      background-color: #e5e7eb;
+    }
+
+    .key.blue {
+      background-color: #3b82f6;
+      color: #ffffff;
+      font-size: 15px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 1. 로딩 화면 -->
+  <div id="loading-screen">
+    <div class="loading-header">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+        <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="#d92d20"/>
+        <path d="M2 17L12 22L22 17" stroke="#003366" stroke-width="3"/>
+        <path d="M2 12L12 17L22 12" stroke="#d92d20" stroke-width="3"/>
+      </svg>
+      <span>모바일 신분증</span>
+    </div>
+
+    <div class="card-grid">
+      <div class="card-item">
+        <div class="card-title">🟢 주민등록증</div>
+        <div class="card-body"></div>
+      </div>
+      <div class="card-item">
+        <div class="card-title">🔵 자동차운전면허증</div>
+        <div class="card-body"></div>
+      </div>
+      <div class="card-item">
+        <div class="card-title">🟡 국가유공자증</div>
+        <div class="card-body"></div>
+      </div>
+      <div class="card-item">
+        <div class="card-title">🔵 외국인등록증</div>
+        <div class="card-body"></div>
+      </div>
+    </div>
+
+    <div class="loading-text">
+      <h2>신분증이 스마트폰 속으로 쏙!</h2>
+      <p>온·오프라인 어디서나<br>편리하게 이용가능</p>
+    </div>
+
+    <div class="progress-area">
+      <div class="spinner"></div>
+      <span id="percent">0%</span>
+    </div>
+
+    <div class="loading-footer">
+      <span style="font-weight:bold; color:#003366; font-size:14px;">대한민국정부</span>
+      <span style="font-size:11px; color:#888;">웹접근성 품질인증</span>
+    </div>
+  </div>
+
+  <!-- 2. 비밀번호 입력 화면 -->
+  <div id="main-screen">
+    <div class="pin-header">
+      <div class="pin-title">
+        모바일 신분증 앱 비밀번호<br>6자리를 입력하세요.
+      </div>
+
+      <div class="dots-container">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+
+      <div class="btn-change-pin">비밀번호 변경</div>
+      <div>
+        <a href="#" class="btn-bio">생체 인증 로그인 &gt;</a>
+      </div>
+    </div>
+
+    <!-- 키패드 -->
+    <div class="keypad">
+      <div class="key">5</div>
+      <div class="key">7</div>
+      <div class="key">1</div>
+      <div class="key">4</div>
+      <div class="key">6</div>
+      <div class="key">3</div>
+      <div class="key">2</div>
+      <div class="key">9</div>
+      <div class="key">0</div>
+      <div class="key action">⌫</div>
+      <div class="key">8</div>
+      <div class="key blue">전체삭제</div>
+    </div>
+  </div>
+
+  <script>
+    // 퍼센트 로딩 애니메이션 및 화면 전환
+    let percent = 0;
+    const percentEl = document.getElementById('percent');
+    const loadingScreen = document.getElementById('loading-screen');
+    const mainScreen = document.getElementById('main-screen');
+
+    const timer = setInterval(() => {
+      percent += 5;
+      if (percent <= 100) {
+        percentEl.innerText = percent + '%';
+      }
+      
+      if (percent >= 100) {
+        clearInterval(timer);
+        // 로딩 완료 후 비밀번호 화면으로 전환
+        loadingScreen.style.display = 'none';
+        mainScreen.style.display = 'flex';
+      }
+    }, 100); // 총 약 2초 후 완료됨
+  </script>
 
 </body>
 </html>
+
