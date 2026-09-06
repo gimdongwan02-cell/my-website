@@ -1,8 +1,17 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <!-- 1. QR 코드 라이브러리 추가 -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>모바일신분증</title>
+
+    <!-- 홈 화면 추가 시 적용될 로고 아이콘 설정 -->
+    <link rel="apple-touch-icon" href="logo.jpg">
+    <link rel="icon" type="image/jpeg" href="logo.jpg">
+
+    <!-- QR 코드 라이브러리 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
     <style>
         * {
             box-sizing: border-box;
@@ -12,29 +21,27 @@
         }
 
         body {
-            background-color: #f5f7fa;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+            background-color: #ffffff;
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
         }
 
         .mobile-container {
-            .mobile-container {
-    width: 100vw;
-    height: 100vh;
-    background-color: #ffffff;
-    border-radius: 0; /* 모바일 풀화면이므로 라운드 제거 */
-    box-shadow: none; /* 그림자 제거 */
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column
-            }
+            width: 100vw;
+            height: 100vh;
+            background-color: #ffffff;
+            border-radius: 0;
+            box-shadow: none;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
 
-        
-
-        /* 스플래시 화면 */
+        /* 1. 스플래시 화면 */
         .splash-screen {
             position: absolute;
             top: 0;
@@ -62,6 +69,13 @@
             font-size: 24px;
             font-weight: bold;
             margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .splash-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .splash-title {
@@ -91,7 +105,7 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* 비밀번호 입력 화면 */
+        /* 2. 비밀번호 입력 화면 */
         .auth-screen {
             flex: 1;
             display: flex;
@@ -110,6 +124,7 @@
             font-weight: 600;
             color: #222;
             margin-bottom: 24px;
+            line-height: 1.4;
         }
 
         .pin-dots {
@@ -163,7 +178,7 @@
             color: #666;
         }
 
-        /* QR 결과 화면 */
+        /* 3. 조회 및 QR 결과 화면 */
         .result-container {
             text-align: center;
             margin-top: 100px;
@@ -180,7 +195,7 @@
             font-weight: bold;
             border-radius: 12px;
             cursor: pointer;
-            margin-top: 30px;
+            margin-top: 20px;
             transition: background-color 0.2s;
         }
 
@@ -194,16 +209,18 @@
     <div class="mobile-container">
         <!-- 스플래시 화면 -->
         <div class="splash-screen" id="splash">
-            <div class="splash-logo">APP</div>
+            <div class="splash-logo">
+                <img src="logo.jpg" alt="로고" onerror="this.style.display='none'; this.parentNode.innerText='APP';">
+            </div>
             <div class="splash-title">모바일신분증</div>
-            <div class="splash-desc">휴대폰 하나로끝!</div>
+            <div class="splash-desc">핸드폰하나로 본인인증끝!</div>
             <div class="loader"></div>
         </div>
 
-        <!-- 인증 및 QR 화면 영역 -->
+        <!-- 인증 및 컨텐츠 영역 -->
         <div class="auth-screen" id="mainContent">
             <div class="auth-header">
-                <div class="auth-title">비밀번호 6자리를 입력해 주세요</div>
+                <div class="auth-title">모바일신분증앱<br>비밀번호 6자리를 입력해 주세요</div>
                 <div class="pin-dots">
                     <div class="dot"></div>
                     <div class="dot"></div>
@@ -214,6 +231,7 @@
                 </div>
             </div>
 
+            <!-- 숫자 키패드 -->
             <div class="keypad">
                 <button class="key-btn" onclick="pressKey('1')">1</button>
                 <button class="key-btn" onclick="pressKey('2')">2</button>
@@ -232,7 +250,7 @@
     </div>
 
     <script>
-        // 스플래시 화면 닫기
+        // 스플래시 화면 제어 (2.5초 후 닫힘)
         window.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 const splash = document.getElementById('splash');
@@ -245,7 +263,7 @@
             }, 2500);
         });
 
-        // 비밀번호 로직
+        // 비밀번호 설정
         let inputPin = [];
         const maxLen = 6;
         const targetPin = "777777";
@@ -271,6 +289,7 @@
 
                     setTimeout(() => {
                         if (enteredPin === targetPin) {
+                            // 1단계: 비번 맞으면 '조회하기' 화면 표시
                             showResultScreen();
                         } else {
                             alert('비밀번호가 일치하지 않습니다.');
@@ -293,23 +312,36 @@
             updateDots();
         }
 
-        // 인증 성공 시 QR 화면 생성 함수
+        // 1단계: 비번 풀렸을 때 [조회하기] 화면
         function showResultScreen() {
             const mainContent = document.getElementById('mainContent');
             
-            // 1. 화면 UI 생성
             mainContent.innerHTML = `
                 <div class="result-container">
-                    <h2 style="font-size: 22px; color: #333; margin-bottom: 10px;">QR코드인증</h2>
-                    <p style="color: #666; font-size: 14px; margin-bottom: 25px;">QR 코드를 스캔해 주세요.</p>
+                    <h2 style="font-size: 22px; color: #333; margin-bottom: 10px;">인증 성공! 🎉</h2>
+                    <p style="color: #666; font-size: 15px; margin-bottom: 30px;">신분증 정보를 조회할 수 있습니다.</p>
+                    <button class="result-btn" onclick="showQrCode()">조회하기</button>
+                </div>
+            `;
+        }
+
+        // 2단계: [조회하기] 누르면 'QR코드 표시' 버튼과 함께 QR 생성
+        function showQrCode() {
+            const mainContent = document.getElementById('mainContent');
+            
+            mainContent.innerHTML = `
+                <div class="result-container">
+                    <h2 style="font-size: 20px; color: #333; margin-bottom: 10px;">QR 코드 표시</h2>
+                    <p style="color: #666; font-size: 14px; margin-bottom: 25px;">아래 QR 코드를 스캔해 주세요.</p>
                     
+                    <!-- QR 코드 출력 박스 -->
                     <div id="qrcode" style="display: flex; justify-content: center; margin-bottom: 20px;"></div>
 
                     <button class="result-btn" onclick="location.reload()">처음으로</button>
                 </div>
             `;
 
-            // 2. QR 코드 생성
+            // QR 코드 동적 생성
             new QRCode(document.getElementById("qrcode"), {
                 text: "https://www.seoul.go.kr",
                 width: 160,
