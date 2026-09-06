@@ -3,16 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>모바일신분증</title>
-    <!-- 스마트폰 홈 화면 추가 시 적용될 로고 아이콘 설정 -->
-<link rel="apple-touch-icon" href="Screenshot_2...9_Google.jpg">
-<link rel="icon" type="image/jpeg" href="Screenshot_2...9_Google.jpg">
+    <title>모바일 신분증</title>
 
-    <!-- 홈 화면 추가 실행 시 주소창 제거 메타 태그 -->
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="theme-color" content="#ffffff">
+    <!-- PWA 및 로고 설정 -->
+    <link rel="apple-touch-icon" href="logo.jpg">
+    <link rel="icon" type="image/jpeg" href="logo.jpg">
+    <link rel="manifest" href="manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#ffffff">
+
     <!-- QR 코드 라이브러리 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
@@ -21,14 +22,13 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
         }
 
         html, body {
             width: 100%;
             min-height: 100%;
-            background-color: #ffffff;
-            /* 스크롤이 가능하도록 auto로 설정 */
+            background-color: #f7f8fa;
             overflow-x: hidden;
             overflow-y: auto;
         }
@@ -36,13 +36,13 @@
         .mobile-container {
             width: 100vw;
             min-height: 100vh;
-            background-color: #ffffff;
+            background-color: #f7f8fa;
             position: relative;
             display: flex;
             flex-direction: column;
         }
 
-        /* 1. 스플래시 화면 (고정 위치) */
+        /* 1. 스플래시 화면 */
         .splash-screen {
             position: fixed;
             top: 0;
@@ -54,7 +54,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            z-index: 10;
+            z-index: 1000;
             transition: opacity 0.5s ease-out, visibility 0.5s;
         }
 
@@ -79,34 +79,31 @@
             object-fit: cover;
         }
 
-        .splash-title {
-            font-size: 20px;
+        .demo-badge {
+            background-color: #ff4d4f;
+            color: white;
+            font-size: 12px;
             font-weight: bold;
-            color: #333;
-            margin-bottom: 8px;
+            padding: 4px 12px;
+            border-radius: 12px;
+            margin-top: 10px;
         }
 
-        .splash-desc {
-            font-size: 14px;
-            color: #888;
+        /* 데모 경고 상단 바 */
+        .demo-bar {
+            background-color: #ff4d4f;
+            color: #ffffff;
+            text-align: center;
+            font-size: 12px;
+            font-weight: bold;
+            padding: 6px 0;
+            letter-spacing: 0.5px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
-        .loader {
-            margin-top: 40px;
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid #4A90E2;
-            border-radius: 50%;
-            width: 24px;
-            height: 24px;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* 2. 비밀번호 및 컨텐츠 영역 */
+        /* 2. 비밀번호 입력 화면 */
         .auth-screen {
             flex: 1;
             display: flex;
@@ -114,11 +111,12 @@
             justify-content: space-between;
             padding: 40px 20px 30px 20px;
             min-height: 100vh;
+            background-color: #ffffff;
         }
 
         .auth-header {
             text-align: center;
-            margin-top: 20px;
+            margin-top: 40px;
         }
 
         .auth-title {
@@ -148,13 +146,11 @@
             background-color: #4A90E2;
         }
 
-        /* 키패드 */
         .keypad {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 10px;
             padding-bottom: 20px;
-            margin-top: 20px;
         }
 
         .key-btn {
@@ -169,41 +165,266 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            user-select: none;
         }
 
         .key-btn:active {
-            background-color: #e8e8e8;
+            background-color: #f0f0f0;
         }
 
-        .key-btn.action-btn {
-            font-size: 14px;
-            color: #666;
+        /* 3. 메인 모바일 신분증 상세 화면 */
+        .app-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+            background-color: #ffffff;
         }
 
-        /* 3. 조회 및 QR 결과 화면 */
-        .result-container {
-            text-align: center;
-            padding: 60px 20px 40px 20px;
-            width: 100%;
-        }
-
-        .result-btn {
-            background-color: #4A90E2;
-            color: white;
+        .header-icon {
+            font-size: 24px;
+            background: none;
             border: none;
-            padding: 16px 0;
+            cursor: pointer;
+            color: #222;
+        }
+
+        .header-title {
+            font-size: 19px;
+            font-weight: 700;
+            color: #111;
+        }
+
+        .notice-banner {
+            background-color: #ffffff;
+            margin: 12px 20px;
+            padding: 12px 16px;
+            border-radius: 25px;
+            font-size: 13px;
+            color: #555;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        /* 신분증 실물 프레임 (세로형 카드) */
+        .id-card-wrapper {
+            display: flex;
+            justify-content: center;
+            padding: 10px 20px;
+        }
+
+        .id-card-real {
             width: 100%;
+            max-width: 330px;
+            height: 480px;
+            background-color: #fdfaf2;
+            border-radius: 20px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+            position: relative;
+            padding: 24px 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border: 1px solid #eae5d8;
+            background-image: radial-gradient(circle at 50% 30%, rgba(200, 180, 130, 0.12) 0%, transparent 70%);
+        }
+
+        .card-top-title {
+            text-align: right;
+            font-size: 22px;
+            font-weight: 800;
+            color: #2b2b2b;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        .card-body-layout {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-top: 10px;
+        }
+
+        .card-user-info {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .card-user-name {
+            font-size: 20px;
+            font-weight: 800;
+            color: #111;
+        }
+
+        .card-user-rrn {
+            font-size: 15px;
+            font-weight: 700;
+            color: #333;
+            letter-spacing: 1px;
+        }
+
+        .card-photo-box {
+            width: 120px;
+            height: 150px;
+            background-color: #e2e2e2;
+            border-radius: 6px;
+            overflow: hidden;
+            border: 1px solid #ccc;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+
+        .card-photo-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .card-bottom-info {
+            margin-top: auto;
+            text-align: left;
+            font-size: 13px;
+            color: #444;
+            line-height: 1.6;
+            font-weight: 600;
+        }
+
+        .legal-notice {
+            text-align: center;
+            font-size: 13px;
+            color: #666;
+            margin: 15px 0 25px 0;
+            font-weight: 500;
+        }
+
+        /* 하단 고정 메뉴 바 */
+        .bottom-nav {
+            margin-top: auto;
+            display: flex;
+            justify-content: space-around;
+            background-color: #ffffff;
+            padding: 12px 10px 25px 10px;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            box-shadow: 0 -4px 12px rgba(0,0,0,0.04);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            color: #333;
+            font-size: 14px;
+            font-weight: bold;
+            flex: 1;
+        }
+
+        .nav-icon-box {
+            width: 44px;
+            height: 44px;
+            background-color: #eaf2ff;
+            border-radius: 14px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #4A90E2;
+            font-size: 20px;
+        }
+
+        /* 4. 정보 수정 모달 창 */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0,0,0,0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 500;
+        }
+
+        .modal-box {
+            background-color: #ffffff;
+            width: 90%;
+            max-width: 340px;
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .modal-title {
             font-size: 18px;
             font-weight: bold;
-            border-radius: 12px;
-            cursor: pointer;
-            margin-top: 20px;
-            transition: background-color 0.2s;
+            margin-bottom: 16px;
+            color: #222;
         }
 
-        .result-btn:hover {
-            background-color: #357ABD;
+        .form-group {
+            margin-bottom: 14px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 4px;
+            font-weight: bold;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .modal-btns {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn-cancel {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            background-color: #eee;
+            color: #555;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .btn-save {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            background-color: #4A90E2;
+            color: white;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* 5. QR 화면 */
+        .qr-container {
+            background-color: #ffffff;
+            margin: 30px 20px;
+            padding: 30px 20px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
     </style>
 </head>
@@ -215,89 +436,112 @@
             <div class="splash-logo">
                 <img src="logo.jpg" alt="로고" onerror="this.style.display='none'; this.parentNode.innerText='APP';">
             </div>
-            <div class="splash-title">모바일신분증</div>
-            <div class="splash-desc">어디서나 편하게</div>
-            <div class="loader"></div>
+            <div style="font-size: 20px; font-weight: bold;">모바일 신분증</div>
+            <div class="demo-badge">모바일신분증</div>
         </div>
 
-        <!-- 인증 및 컨텐츠 영역 -->
-        <div class="auth-screen" id="mainContent">
-            <div class="auth-header">
-                <div class="auth-title">모바일신분증앱<br>비밀번호 6자리를 입력해 주세요</div>
-                <div class="pin-dots">
-                    <div class="dot"></div>
-                    <div class="dot"></div>
-                    <div class="dot"></div>
-                    <div class="dot"></div>
-                    <div class="dot"></div>
-                    <div class="dot"></div>
+        <!-- 메인 컨텐츠 영역 -->
+        <div id="mainContent">
+            <div class="demo-bar">이앱은 공식모바일신분증앱 입니다</div>
+            
+            <!-- 비밀번호 입력 화면 -->
+            <div class="auth-screen">
+                <div class="auth-header">
+                    <div class="auth-title">모바일 신분증<br>비밀번호 6자리를 입력해 주세요</div>
+                    <div style="font-size: 13px; color: #ff4d4f; margin-bottom: 15px; font-weight: bold;">(테스트 비밀번호: 777777)</div>
+                    <div class="pin-dots">
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                    </div>
+                </div>
+
+                <div class="keypad">
+                    <button class="key-btn" onclick="pressKey('1')">1</button>
+                    <button class="key-btn" onclick="pressKey('2')">2</button>
+                    <button class="key-btn" onclick="pressKey('3')">3</button>
+                    <button class="key-btn" onclick="pressKey('4')">4</button>
+                    <button class="key-btn" onclick="pressKey('5')">5</button>
+                    <button class="key-btn" onclick="pressKey('6')">6</button>
+                    <button class="key-btn" onclick="pressKey('7')">7</button>
+                    <button class="key-btn" onclick="pressKey('8')">8</button>
+                    <button class="key-btn" onclick="pressKey('9')">9</button>
+                    <button class="key-btn" style="font-size: 14px; color:#888;" onclick="clearAll()">전체삭제</button>
+                    <button class="key-btn" onclick="pressKey('0')">0</button>
+                    <button class="key-btn" style="font-size: 14px; color:#888;" onclick="deleteKey()">←</button>
                 </div>
             </div>
+        </div>
+    </div>
 
-            <!-- 숫자 키패드 -->
-            <div class="keypad">
-                <button class="key-btn" onclick="pressKey('1')">1</button>
-                <button class="key-btn" onclick="pressKey('2')">2</button>
-                <button class="key-btn" onclick="pressKey('3')">3</button>
-                <button class="key-btn" onclick="pressKey('4')">4</button>
-                <button class="key-btn" onclick="pressKey('5')">5</button>
-                <button class="key-btn" onclick="pressKey('6')">6</button>
-                <button class="key-btn" onclick="pressKey('7')">7</button>
-                <button class="key-btn" onclick="pressKey('8')">8</button>
-                <button class="key-btn" onclick="pressKey('9')">9</button>
-                <button class="key-btn action-btn" onclick="clearAll()">전체삭제</button>
-                <button class="key-btn" onclick="pressKey('0')">0</button>
-                <button class="key-btn action-btn" onclick="deleteKey()">←</button>
+    <!-- 정보 수정 모달 창 -->
+    <div class="modal-overlay" id="editModal">
+        <div class="modal-box">
+            <div class="modal-title">신분증 정보 수정</div>
+            <div class="form-group">
+                <label>이름</label>
+                <input type="text" id="inputName" value="김성준">
+            </div>
+            <div class="form-group">
+                <label>생년월일 및 식별 번호 (예: 060413-1******)</label>
+                <input type="text" id="inputRrn" value="060413-1******">
+            </div>
+            <div class="form-group">
+                <label>사진 선택</label>
+                <input type="file" id="inputPhoto" accept="image/*">
+            </div>
+            <div class="modal-btns">
+                <button class="btn-cancel" onclick="closeModal()">취소</button>
+                <button class="btn-save" onclick="saveInfo()">저장</button>
             </div>
         </div>
     </div>
 
     <script>
-        // 스플래시 화면 제어 (2.5초 후 닫힘)
+        // 현재 신분증 데이터 변수
+        let userData = {
+            name: "김성준",
+            rrn: "060413-1******",
+            photoSrc: "https://via.placeholder.com/120x150/cccccc/ffffff?text=PHOTO"
+        };
+
+        // 스플래시 제어
         window.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 const splash = document.getElementById('splash');
                 if (splash) {
                     splash.style.opacity = '0';
-                    setTimeout(() => {
-                        splash.style.visibility = 'hidden';
-                    }, 500);
+                    setTimeout(() => splash.style.visibility = 'hidden', 500);
                 }
-            }, 2500);
+            }, 1800);
         });
 
-        // 비밀번호 설정
+        // 비밀번호 로직 (777777)
         let inputPin = [];
-        const maxLen = 6;
         const targetPin = "777777";
-        const dots = document.querySelectorAll('.dot');
 
         function updateDots() {
+            const dots = document.querySelectorAll('.dot');
             dots.forEach((dot, idx) => {
-                if (idx < inputPin.length) {
-                    dot.classList.add('active');
-                } else {
-                    dot.classList.remove('active');
-                }
+                if (idx < inputPin.length) dot.classList.add('active');
+                else dot.classList.remove('active');
             });
         }
 
         function pressKey(num) {
-            if (inputPin.length < maxLen) {
+            if (inputPin.length < 6) {
                 inputPin.push(num);
                 updateDots();
-
-                if (inputPin.length === maxLen) {
-                    const enteredPin = inputPin.join('');
-
-                    setTimeout(() => {
-                        if (enteredPin === targetPin) {
-                            showResultScreen();
-                        } else {
-                            alert('비밀번호가 일치하지 않습니다.');
-                            clearAll();
-                        }
-                    }, 200);
+                if (inputPin.length === 6) {
+                    if (inputPin.join('') === targetPin) {
+                        showMainCardScreen();
+                    } else {
+                        alert('비밀번호가 일치하지 않습니다. (777777)');
+                        clearAll();
+                    }
                 }
             }
         }
@@ -314,41 +558,125 @@
             updateDots();
         }
 
-        // 1단계: 비번 풀렸을 때 [조회하기] 화면
-        function showResultScreen() {
+        // 메인 모바일 신분증 화면
+        function showMainCardScreen() {
             const mainContent = document.getElementById('mainContent');
-            
             mainContent.innerHTML = `
-                <div class="result-container">
-                    <h2 style="font-size: 22px; color: #333; margin-bottom: 10px;">모바일신분증</h2>
-                    <p style="color: #666; font-size: 15px; margin-bottom: 30px;">대상확인하기</p>
-                    <button class="result-btn" onclick="showQrCode()">조회하기</button>
+                <div class="demo-bar">이앱은 공식모바일신분증 앱입니다.</div>
+                
+                <!-- 상단 헤더 -->
+                <div class="app-header">
+                    <button class="header-icon">☰</button>
+                    <div class="header-title">모바일 신분증</div>
+                    <!-- 우측 상단 + 버튼 (정보 수정) -->
+                    <button class="header-icon" onclick="openModal()" style="font-size:28px; font-weight:bold;">+</button>
+                </div>
+
+                <!-- 안내 문구 -->
+                <div class="notice-banner">
+                    <span>👆 누르거나 흔들어서 모든 정보를 볼 수 있어요.</span>
+                </div>
+
+                <!-- 신분증 실물 카드 영역 -->
+                <div class="id-card-wrapper">
+                    <div class="id-card-real">
+                        <div class="card-top-title">주민등록증</div>
+                        
+                        <div class="card-body-layout">
+                            <div class="card-user-info">
+                                <div class="card-user-name" id="cardName">${userData.name}</div>
+                                <div class="card-user-rrn" id="cardRrn">${userData.rrn}</div>
+                            </div>
+                            <div class="card-photo-box">
+                                <img id="cardPhoto" src="${userData.photoSrc}" alt="증명사진">
+                            </div>
+                        </div>
+
+                        <div class="card-bottom-info">
+                            2023.04.19.<br>
+                            서울특별시 서초구청장
+                        </div>
+                    </div>
+                </div>
+
+                <div class="legal-notice">
+                    법적 효력 안내
+                </div>
+
+                <!-- 하단 메뉴 -->
+                <div class="bottom-nav">
+                    <button class="nav-item" onclick="showQrScreen()">
+                        <div class="nav-icon-box">📱</div>
+                        <span>나의 QR</span>
+                    </button>
+                    <button class="nav-item" onclick="alert('데모 모드에서는 카메라 촬영이 금지됩니다.')">
+                        <div class="nav-icon-box" style="background-color:#f2f2f2; color:#666;">📷</div>
+                        <span>QR 촬영</span>
+                    </button>
                 </div>
             `;
+            window.scrollTo(0, 0);
         }
 
-        // 2단계: [조회하기] 누르면 'QR코드 표시' 버튼과 함께 QR 생성
-        function showQrCode() {
+        // QR 화면 표시
+        function showQrScreen() {
             const mainContent = document.getElementById('mainContent');
-            
             mainContent.innerHTML = `
-                <div class="result-container">
-                    <h2 style="font-size: 20px; color: #333; margin-bottom: 10px;">QR 코드 표시</h2>
-                    <p style="color: #666; font-size: 14px; margin-bottom: 25px;">아래 QR 코드를 스캔해 주세요.</p>
-                    
-                    <div id="qrcode" style="display: flex; justify-content: center; margin-bottom: 20px;"></div>
+                <div class="demo-bar">이앱은 공식정부 모바일신분앱입니다</div>
+                <div class="app-header">
+                    <button class="header-icon" onclick="showMainCardScreen()">←</button>
+                    <div class="header-title">나의 QR 코드</div>
+                    <div style="width:24px;"></div>
+                </div>
 
-                    <button class="result-btn" onclick="location.reload()">처음으로</button>
+                <div class="qr-container">
+                    <h3 style="font-size:18px; margin-bottom:8px;">${userData.name} 님의 QR</h3>
+                    <p style="font-size:13px; color:#666; margin-bottom:20px;">신분 확인을 위해 스캔해 주세요.</p>
+                    
+                    <div id="qrcode" style="display:flex; justify-content:center; margin-bottom:20px;"></div>
+
+                    <button onclick="showMainCardScreen()" style="width:100%; padding:14px; background:#4A90E2; color:white; border:none; border-radius:12px; font-weight:bold; font-size:15px; cursor:pointer;">신분증으로 돌아가기</button>
                 </div>
             `;
 
             new QRCode(document.getElementById("qrcode"), {
                 text: "https://www.seoul.go.kr",
-                width: 160,
-                height: 160
+                width: 180,
+                height: 180
             });
+            window.scrollTo(0, 0);
+        }
+
+        // 모달 제어 함수
+        function openModal() {
+            document.getElementById('editModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('editModal').style.display = 'none';
+        }
+
+        function saveInfo() {
+            const nameVal = document.getElementById('inputName').value;
+            const rrnVal = document.getElementById('inputRrn').value;
+            const photoInput = document.getElementById('inputPhoto');
+
+            if (nameVal) userData.name = nameVal;
+            if (rrnVal) userData.rrn = rrnVal;
+
+            if (photoInput.files && photoInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    userData.photoSrc = e.target.result;
+                    closeModal();
+                    showMainCardScreen();
+                };
+                reader.readAsDataURL(photoInput.files[0]);
+            } else {
+                closeModal();
+                showMainCardScreen();
+            }
         }
     </script>
 </body>
 </html>
-
