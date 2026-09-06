@@ -262,3 +262,53 @@
     </script>
 </body>
 </html>
+// 입력된 비밀번호를 저장하는 배열 및 설정
+let inputPin = [];
+const maxLen = 6;
+const targetPin = "777777"; // 설정할 비밀번호
+
+function pressKey(num) {
+    if (inputPin.length < maxLen) {
+        inputPin.push(num);
+        updateDots();
+
+        // 6자리가 모두 입력되었을 때 검증
+        if (inputPin.length === maxLen) {
+            const enteredPin = inputPin.join('');
+
+            // 입력값 확인 (0.2초 뒤 실행)
+            setTimeout(() => {
+                if (enteredPin === targetPin) {
+                    // 비밀번호가 '777777'인 경우: 조회하기 화면으로 전환
+                    showResultScreen();
+                } else {
+                    // 비밀번호가 틀린 경우
+                    alert('비밀번호가 일치하지 않습니다.');
+                    clearAll(); // 입력 초기화
+                }
+            }, 200);
+        }
+    }
+}
+
+// 비밀번호 성공 시 실행될 화면 전환 함수 예시
+function showResultScreen() {
+    const authScreen = document.querySelector('.auth-screen');
+    
+    // 기존 인증 화면 내용을 '조회하기' 버튼 화면으로 변경
+    authScreen.innerHTML = `
+        <div style="text-align: center; margin-top: 100px;">
+            <h2 style="margin-bottom: 20px; color: #333;">인증이 완료되었습니다</h2>
+            <p style="color: #666; margin-bottom: 40px;">아래 버튼을 눌러 정보를 조회하세요.</p>
+            <button onclick="alert('조회를 시작합니다.')" style="
+                background-color: #4A90E2;
+                color: white;
+                border: none;
+                padding: 15px 40px;
+                font-size: 18px;
+                border-radius: 10px;
+                cursor: pointer;
+            ">조회하기</button>
+        </div>
+    `;
+}
