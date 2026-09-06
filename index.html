@@ -27,18 +27,6 @@
             background-color: #f7f8fa;
         }
 
-        .demo-bar {
-            background-color: #ff4d4f;
-            color: #fff;
-            text-align: center;
-            font-size: 11px;
-            font-weight: bold;
-            padding: 4px 0;
-            position: sticky;
-            top: 0;
-            z-index: 999;
-        }
-
         .app-header {
             display: flex;
             justify-content: space-between;
@@ -67,7 +55,7 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            min-height: calc(100vh - 30px);
+            min-height: 100vh;
             background-color: #fff;
         }
 
@@ -104,16 +92,9 @@
             cursor: pointer;
         }
 
-        /* 2. 신분증 목록 조회 화면 (4737_2.jpg) */
+        /* 2. 신분증 목록 조회 화면 */
         .list-screen {
             padding: 20px;
-        }
-
-        .list-screen-title {
-            text-align: center;
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 20px;
         }
 
         .card-item {
@@ -168,7 +149,7 @@
             cursor: pointer;
         }
 
-        /* 3. 메뉴 화면 (4741.jpg) */
+        /* 3. 메뉴 화면 */
         .menu-screen {
             background-color: #ffffff;
             min-height: 100vh;
@@ -229,7 +210,7 @@
             cursor: pointer;
         }
 
-        /* 4. 메인 신분증 카카오형/기본형 레이아웃 */
+        /* 4. 메인 주민등록증 카드 레이아웃 */
         .notice-banner {
             background: #fff;
             margin: 12px 20px;
@@ -251,64 +232,95 @@
             width: 100%;
             max-width: 330px;
             height: 480px;
-            background-color: #fbf7ee;
+            background-color: #FAF6ED;
             border-radius: 16px;
             padding: 24px 20px;
             box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-            border: 1px solid #ede5d5;
+            border: 1px solid #EADBCE;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            position: relative;
+            overflow: hidden;
             cursor: pointer;
         }
 
-        .card-header-v {
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            gap: 8px;
+        .card-pattern-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.12;
+            pointer-events: none;
+            background-image: radial-gradient(#2b5c8f 1px, transparent 0);
+            background-size: 8px 8px;
         }
 
-        .card-title-v {
-            writing-mode: vertical-rl;
-            font-size: 20px;
-            font-weight: bold;
+        .card-top-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 2;
+        }
+
+        .taegeuk-icon {
+            width: 32px;
+            height: 32px;
+        }
+
+        .card-title-text {
+            font-size: 22px;
+            font-weight: 800;
+            color: #2b3a4a;
             letter-spacing: 2px;
         }
 
-        .card-body-v {
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
+        .card-main-info {
+            margin-top: 10px;
+            z-index: 2;
         }
 
-        .vertical-text {
-            writing-mode: vertical-rl;
-            font-size: 15px;
-            font-weight: 600;
+        .info-name {
+            font-size: 22px;
+            font-weight: bold;
+            color: #111;
+            margin-bottom: 4px;
+        }
+
+        .info-rrn {
+            font-size: 16px;
+            font-weight: 700;
+            color: #222;
             letter-spacing: 1px;
-            line-height: 1.6;
-        }
-
-        .clickable-rrn {
+            margin-bottom: 12px;
             cursor: pointer;
-            background-color: rgba(0,0,0,0.03);
-            padding: 2px 4px;
-            border-radius: 4px;
+            display: inline-block;
         }
 
-        .card-footer-v {
+        .info-address {
+            font-size: 13px;
+            color: #333;
+            line-height: 1.4;
+            font-weight: 500;
+        }
+
+        .card-bottom-row {
             display: flex;
             justify-content: space-between;
             align-items: flex-end;
+            margin-top: auto;
+            z-index: 2;
         }
 
         .photo-box {
-            width: 100px;
-            height: 130px;
+            width: 105px;
+            height: 135px;
             background-color: #ddd;
             border-radius: 4px;
             overflow: hidden;
+            border: 1px solid #bbb;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
         .photo-box img {
@@ -317,7 +329,15 @@
             object-fit: cover;
         }
 
-        /* 5. 신분증 상세보기 모달 (4743.jpg 스타일) */
+        .issuer-box {
+            text-align: right;
+            font-size: 12px;
+            color: #222;
+            line-height: 1.5;
+            font-weight: bold;
+        }
+
+        /* 5. 상세보기 모달 */
         .dark-modal {
             position: fixed;
             top: 0;
@@ -332,35 +352,19 @@
             z-index: 1000;
         }
 
-        .dark-card {
-            width: 85%;
-            max-width: 320px;
-            height: 480px;
-            background-color: #fbf7ee;
-            border-radius: 16px;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-
         .close-dark-btn {
-            margin-top: 30px;
-            width: 50px;
-            height: 50px;
+            margin-top: 25px;
+            width: 48px;
+            height: 48px;
             border-radius: 50%;
             background-color: rgba(255,255,255,0.2);
             color: white;
             border: none;
             font-size: 20px;
             cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
         }
 
-        /* 모달 공통 */
+        /* 수정 모달 */
         .modal {
             position: fixed;
             top: 0;
@@ -414,9 +418,6 @@
 <body>
 
 <div class="container">
-    <div class="demo-bar">모바일신분증 뭐든지간편하게!</div>
-
-    <!-- 메인 컨텐츠 동적 전환 영역 -->
     <div id="appBody"></div>
 </div>
 
@@ -427,8 +428,8 @@
         <label style="font-size:12px;">이름</label>
         <input type="text" id="editName" value="김성준">
         
-        <label style="font-size:12px;">주민등록번호 뒷자리</label>
-        <input type="text" id="editRrnBack" value="3614872">
+        <label style="font-size:12px;">주민등록번호 뒷자리 (표시용)</label>
+        <input type="text" id="editRrnBack" value="3******">
         
         <label style="font-size:12px;">도로명 주소</label>
         <input type="text" id="editAddr1" value="서울특별시 서초구 신반포로15길19">
@@ -446,23 +447,27 @@
     </div>
 </div>
 
-<!-- 수직 확장 카드 보기 모달 (4743.jpg) -->
+<!-- 상세보기 모달 -->
 <div class="dark-modal" id="darkDetailModal">
-    <div class="dark-card">
-        <div class="card-header-v">
-            <div style="width:20px; height:20px; background:red; border-radius:50%;"></div>
-            <div class="card-title-v">주민등록증</div>
+    <div class="id-card" style="box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+        <div class="card-pattern-bg"></div>
+        <div class="card-top-header">
+            <svg class="taegeuk-icon" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="48" fill="#0047A0"/>
+                <path d="M 50,2 A 48,48 0 0,1 50,98 A 24,24 0 0,1 50,50 A 24,24 0 0,0 50,2" fill="#CD2E3A"/>
+            </svg>
+            <div class="card-title-text">주민등록증</div>
         </div>
-        <div class="card-body-v">
-            <div class="vertical-text" id="darkName">김성준</div>
-            <div class="vertical-text" id="darkRrn">060413-3614872</div>
-            <div class="vertical-text" id="darkAddr">서울특별시 서초구 신반포로15길19 아크로리버파크 103동 1104호</div>
+        <div class="card-main-info">
+            <div class="info-name" id="darkName">김성준</div>
+            <div class="info-rrn" id="darkRrn">060413-3******</div>
+            <div class="info-address" id="darkAddr">서울특별시 서초구 신반포로15길19<br>아크로리버파크 103동 1104호</div>
         </div>
-        <div class="card-footer-v">
+        <div class="card-bottom-row">
             <div class="photo-box">
-                <img id="darkPhoto" src="https://via.placeholder.com/100x130/cccccc/ffffff?text=PHOTO" alt="사진">
+                <img id="darkPhoto" src="https://via.placeholder.com/105x135/cccccc/ffffff?text=PHOTO" alt="사진">
             </div>
-            <div style="text-align:right; font-size:11px; line-height:1.4;">
+            <div class="issuer-box">
                 2023.04.19.<br>
                 서울특별시 서초구청장
             </div>
@@ -473,23 +478,20 @@
 </div>
 
 <script>
-    // 상태 관리
     let state = {
         name: "김성준",
         rrnFront: "060413",
-        rrnBack: "3614872",
-        showFullRrn: false,
+        rrnBackDisplay: "3******",
         address1: "서울특별시 서초구 신반포로15길19",
         address2: "아크로리버파크 103동 1104호",
-        photoSrc: "https://via.placeholder.com/100x130/cccccc/ffffff?text=PHOTO",
+        photoSrc: "https://via.placeholder.com/105x135/cccccc/ffffff?text=PHOTO",
         pinInput: [],
         targetPin: "777777"
     };
 
-    // 앱 시작점: 비밀번호 화면
     renderAuthScreen();
 
-    // 1. 비밀번호 입력 화면
+    // 1. 비밀번호 화면
     function renderAuthScreen() {
         state.pinInput = [];
         const app = document.getElementById('appBody');
@@ -498,7 +500,6 @@
                 <div style="text-align:center;">
                     <h2 style="font-size:18px; margin-bottom:8px;">모바일 신분증</h2>
                     <p style="font-size:13px; color:#666;">비밀번호 6자리를 입력해 주세요</p>
-                    <p style="font-size:12px; color:#ff4d4f; margin-top:4px;">(테스트 비밀번호: 777777)</p>
                     <div class="pin-dots">
                         <div class="dot" id="dot0"></div>
                         <div class="dot" id="dot1"></div>
@@ -524,9 +525,9 @@
             updateDots();
             if (state.pinInput.length === 6) {
                 if (state.pinInput.join('') === state.targetPin) {
-                    renderListScreen(); // 비밀번호 풀리면 목록 조회 화면 (4737_2.jpg)
+                    renderListScreen();
                 } else {
-                    alert('비밀번호가 일치하지 않습니다. (777777)');
+                    alert('비밀번호가 일치하지 않습니다.');
                     renderAuthScreen();
                 }
             }
@@ -548,7 +549,7 @@
         }
     }
 
-    // 2. 신분증 목록 조회 화면 (4737_2.jpg)
+    // 2. 신분증 목록 조회 화면
     function renderListScreen() {
         const app = document.getElementById('appBody');
         app.innerHTML = `
@@ -574,27 +575,27 @@
                     <div class="card-info-row"><span>준비물</span><span>IC 자동차운전면허증</span></div>
                     <div class="card-btn-group">
                         <button class="btn-sub">발급방법</button>
-                        <button class="btn-primary" onclick="alert('운전면허증 시연 준비 중입니다.')">조회하기</button>
+                        <button class="btn-primary" onclick="alert('운전면허증 준비 중입니다.')">조회하기</button>
                     </div>
                 </div>
             </div>
         `;
     }
 
-    // 3. 메뉴 화면 (4741.jpg)
+    // 3. 메뉴 화면
     function renderMenuScreen() {
         const app = document.getElementById('appBody');
         app.innerHTML = `
             <div class="menu-screen">
                 <div class="menu-top-bar">
                     <button class="icon-btn" onclick="renderListScreen()">✕</button>
-                    <button class="icon-btn">설정</button>
+                    <button class="icon-btn">⚙️</button>
                 </div>
 
                 <div class="menu-icons">
-                    <div class="menu-icon-btn">고객센터</span></div>
-                    <div class="menu-icon-btn">공지사항</span></div>
-                    <div class="menu-icon-btn"><알림</span></div>
+                    <div class="menu-icon-btn">🎧<span>고객센터</span></div>
+                    <div class="menu-icon-btn">📢<span>공지사항</span></div>
+                    <div class="menu-icon-btn">🔔<span>알림</span></div>
                 </div>
 
                 <div class="banner-box">
@@ -602,22 +603,21 @@
                 </div>
 
                 <div class="menu-list-section">
-                    <div class="menu-item-row" onclick="renderListScreen()">나의 신분증 관리</div>
-                    <div class="menu-item-row">사용이력</div>
+                    <div class="menu-item-row" onclick="renderListScreen()">🪪 내 신분증 관리</div>
+                    <div class="menu-item-row">🕒 사용이력</div>
                 </div>
 
                 <div class="menu-list-section">
                     <div class="menu-section-title">편의 서비스</div>
-                    <div class="menu-item-row">전자증명서</div>
-                    <div class="menu-item-row">국민비서</div>
+                    <div class="menu-item-row">📄 전자증명서</div>
+                    <div class="menu-item-row">🇰🇷 국민비서</div>
                 </div>
             </div>
         `;
     }
 
-    // 4. 메인 신분증 카드 화면
+    // 4. 메인 신분증 화면
     function renderMainCardScreen() {
-        const displayRrnBack = state.showFullRrn ? state.rrnBack : state.rrnBack[0] + "******";
         const app = document.getElementById('appBody');
 
         app.innerHTML = `
@@ -628,36 +628,45 @@
             </div>
 
             <div class="notice-banner">
-                누르거나 흔들어서 모든 정보를 볼 수 있어요.
+                👆 누르거나 흔들어서 모든 정보를 볼 수 있어요.
             </div>
 
             <div class="id-card-wrap">
                 <div class="id-card" onclick="openDarkModal()">
-                    <div class="card-header-v">
-                        <div class="card-title-v">주민등록증</div>
+                    <div class="card-pattern-bg"></div>
+                    <div class="card-top-header">
+                        <svg class="taegeuk-icon" viewBox="0 0 100 100">
+                            <circle cx="50" cy="50" r="48" fill="#0047A0"/>
+                            <path d="M 50,2 A 48,48 0 0,1 50,98 A 24,24 0 0,1 50,50 A 24,24 0 0,0 50,2" fill="#CD2E3A"/>
+                        </svg>
+                        <div class="card-title-text">주민등록증</div>
                     </div>
                     
-                    <div class="card-body-v">
-                        <div class="vertical-text">${state.name}</div>
-                        <div class="vertical-text clickable-rrn" onclick="toggleRrn(event)">
-                            ${state.rrnFront}-${displayRrnBack}
+                    <div class="card-main-info">
+                        <div class="info-name">${state.name}</div>
+                        <div class="info-rrn" onclick="toggleRrn(event)">
+                            ${state.rrnFront}-${state.rrnBackDisplay}
+                        </div>
+                        <div class="info-address">
+                            ${state.address1}<br>${state.address2}
                         </div>
                     </div>
 
-                    <div class="card-footer-v">
+                    <div class="card-bottom-row">
                         <div class="photo-box">
                             <img src="${state.photoSrc}" alt="사진">
                         </div>
-                        <div class="vertical-text" style="font-size:12px;">
-                            ${state.address1} ${state.address2}
+                        <div class="issuer-box">
+                            2023.04.19.<br>
+                            서울특별시 서초구청장
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="bottom-nav">
-                <button class="nav-btn" onclick="renderQrScreen()">나의 QR</span></button>
-                <button class="nav-btn" onclick="alert('촬영 기능 실행')">QR 촬영</span></button>
+                <button class="nav-btn" onclick="renderQrScreen()">📱<span>나의 QR</span></button>
+                <button class="nav-btn" onclick="alert('촬영 기능 실행')">📷<span>QR 촬영</span></button>
             </div>
         `;
     }
@@ -684,17 +693,14 @@
         });
     }
 
-    // 주민번호 뒷자리 토글
     function toggleRrn(e) {
         e.stopPropagation();
-        state.showFullRrn = !state.showFullRrn;
-        renderMainCardScreen();
+        alert('주민등록번호 뒷자리는 보안을 위해 안전하게 마스킹 처리됩니다.');
     }
 
-    // 모달 관리
     function openEditModal() {
         document.getElementById('editName').value = state.name;
-        document.getElementById('editRrnBack').value = state.rrnBack;
+        document.getElementById('editRrnBack').value = state.rrnBackDisplay;
         document.getElementById('editAddr1').value = state.address1;
         document.getElementById('editAddr2').value = state.address2;
         document.getElementById('editModal').style.display = 'flex';
@@ -706,7 +712,7 @@
 
     function saveInfo() {
         state.name = document.getElementById('editName').value;
-        state.rrnBack = document.getElementById('editRrnBack').value;
+        state.rrnBackDisplay = document.getElementById('editRrnBack').value;
         state.address1 = document.getElementById('editAddr1').value;
         state.address2 = document.getElementById('editAddr2').value;
 
@@ -727,8 +733,8 @@
 
     function openDarkModal() {
         document.getElementById('darkName').innerText = state.name;
-        document.getElementById('darkRrn').innerText = `${state.rrnFront}-${state.rrnBack}`;
-        document.getElementById('darkAddr').innerText = `${state.address1} ${state.address2}`;
+        document.getElementById('darkRrn').innerText = `${state.rrnFront}-${state.rrnBackDisplay}`;
+        document.getElementById('darkAddr').innerHTML = `${state.address1}<br>${state.address2}`;
         document.getElementById('darkPhoto').src = state.photoSrc;
         document.getElementById('darkDetailModal').style.display = 'flex';
     }
