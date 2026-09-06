@@ -1,359 +1,66 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+ <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+  <link rel="stylesheet" href="/_next/static/chunks/2oqb0ftodra11.css" nonce="6b218b84ea1048c39d5890281be0d5fe" data-precedence="next">
+  <link rel="stylesheet" href="/_next/static/chunks/003ekh-b4_lda.css" nonce="6b218b84ea1048c39d5890281be0d5fe" data-precedence="next">
+  <link rel="preload" as="script" fetchpriority="low" nonce="6b218b84ea1048c39d5890281be0d5fe" href="/_next/static/chunks/05vqta0l3bsx2.js">
+  <script src="/_next/static/chunks/27jktro2p5rq9.js" async nonce="6b218b84ea1048c39d5890281be0d5fe"></script>
+  <script src="/_next/static/chunks/3rxl-jt3pdxgx.js" async nonce="6b218b84ea1048c39d5890281be0d5fe"></script>
+  <script src="/_next/static/chunks/11oof8oxnxiv9.js" async nonce="6b218b84ea1048c39d5890281be0d5fe"></script>
+  <script src="/_next/static/chunks/turbopack-28asba4yky0-3.js" async nonce="6b218b84ea1048c39d5890281be0d5fe"></script>
+  <script src="/_next/static/chunks/3tsy9a3391wzv.js" async nonce="6b218b84ea1048c39d5890281be0d5fe"></script>
+  <script src="/_next/static/chunks/153tbw49q_1m9.js" async nonce="6b218b84ea1048c39d5890281be0d5fe"></script>
+  <script src="/_next/static/chunks/1g1x_nuc8c8dw.js" async nonce="6b218b84ea1048c39d5890281be0d5fe"></script>
+  <meta name="theme-color" content="#ffffff">
   <title>모바일 신분증</title>
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    }
-
-    body, html {
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      background-color: #ffffff;
-    }
-
-    /* 1. 로딩 화면 */
-    #loading-screen {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: #ffffff;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      align-items: center;
-      padding: 40px 20px 20px 20px;
-      z-index: 9999;
-    }
-
-    .loading-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-top: 20px;
-    }
-
-    .loading-header img {
-      height: 32px;
-    }
-
-    .loading-header span {
-      font-size: 22px;
-      font-weight: bold;
-      color: #111;
-    }
-
-    .card-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      width: 100%;
-      max-width: 340px;
-      margin: 20px 0;
-    }
-
-    .card-item {
-      background: #f8f9fa;
-      border: 1px solid #e9ecef;
-      border-radius: 8px;
-      padding: 10px;
-      font-size: 11px;
-      color: #333;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.03);
-    }
-
-    .card-title {
-      font-weight: bold;
-      margin-bottom: 6px;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .card-body {
-      background: #e9ecef;
-      height: 40px;
-      border-radius: 4px;
-    }
-
-    .loading-text {
-      text-align: center;
-      margin: 15px 0;
-    }
-
-    .loading-text h2 {
-      font-size: 18px;
-      font-weight: bold;
-      color: #111;
-      margin-bottom: 8px;
-    }
-
-    .loading-text p {
-      font-size: 14px;
-      color: #555;
-      line-height: 1.4;
-    }
-
-    .progress-area {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      color: #888;
-      font-size: 15px;
-      margin-bottom: 20px;
-    }
-
-    .spinner {
-      width: 18px;
-      height: 18px;
-      border: 2px solid #ccc;
-      border-top-color: #666;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-    }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
-    .loading-footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      width: 100%;
-      max-width: 360px;
-      padding: 0 10px;
-    }
-
-    .loading-footer img {
-      height: 24px;
-    }
-
-    /* 2. 비밀번호 입력 화면 */
-    #main-screen {
-      display: none; /* 처음에 숨김 */
-      width: 100%;
-      height: 100%;
-      background-color: #f2f5f8;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .pin-header {
-      padding-top: 80px;
-      text-align: center;
-    }
-
-    .pin-title {
-      font-size: 19px;
-      font-weight: 600;
-      color: #222;
-      line-height: 1.4;
-      margin-bottom: 25px;
-    }
-
-    .dots-container {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      margin-bottom: 25px;
-    }
-
-    .dot {
-      width: 12px;
-      height: 12px;
-      background-color: #d1d5db;
-      border-radius: 50%;
-    }
-
-    .dot.active {
-      background-color: #2563eb;
-    }
-
-    .btn-change-pin {
-      display: inline-block;
-      padding: 6px 16px;
-      border: 1px solid #d1d5db;
-      border-radius: 20px;
-      font-size: 13px;
-      color: #4b5563;
-      background: #fff;
-      margin-bottom: 12px;
-    }
-
-    .btn-bio {
-      font-size: 14px;
-      color: #4b5563;
-      text-decoration: none;
-    }
-
-    /* 키패드 */
-    .keypad {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      background-color: #ffffff;
-    }
-
-    .key {
-      height: 60px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 24px;
-      font-weight: 500;
-      color: #111;
-      border-right: 1px solid #f3f4f6;
-      border-top: 1px solid #f3f4f6;
-      user-select: none;
-    }
-
-    .key:nth-child(3n) {
-      border-right: none;
-    }
-
-    .key:active {
-      background-color: #f3f4f6;
-    }
-
-    .key.action {
-      font-size: 14px;
-      color: #4b5563;
-      background-color: #e5e7eb;
-    }
-
-    .key.blue {
-      background-color: #3b82f6;
-      color: #ffffff;
-      font-size: 15px;
-      font-weight: bold;
-    }
-  </style>
-</head>
-<body>
-
-  <!-- 1. 로딩 화면 -->
-  <div id="loading-screen">
-    <div class="loading-header">
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
-        <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="#d92d20"/>
-        <path d="M2 17L12 22L22 17" stroke="#003366" stroke-width="3"/>
-        <path d="M2 12L12 17L22 12" stroke="#d92d20" stroke-width="3"/>
-      </svg>
-      <span>모바일 신분증</span>
-    </div>
-
-    <div class="card-grid">
-      <div class="card-item">
-        <div class="card-title">🟢 주민등록증</div>
-        <div class="card-body"></div>
-      </div>
-      <div class="card-item">
-        <div class="card-title">🔵 자동차운전면허증</div>
-        <div class="card-body"></div>
-      </div>
-      <div class="card-item">
-        <div class="card-title">🟡 국가유공자증</div>
-        <div class="card-body"></div>
-      </div>
-      <div class="card-item">
-        <div class="card-title">🔵 외국인등록증</div>
-        <div class="card-body"></div>
-      </div>
-    </div>
-
-    <div class="loading-text">
-      <h2>신분증이 스마트폰 속으로 쏙!</h2>
-      <p>온·오프라인 어디서나<br>편리하게 이용가능</p>
-    </div>
-
-    <div class="progress-area">
-      <div class="spinner"></div>
-      <span id="percent">0%</span>
-    </div>
-
-    <div class="loading-footer">
-      <span style="font-weight:bold; color:#003366; font-size:14px;">대한민국정부</span>
-      <span style="font-size:11px; color:#888;">웹접근성 품질인증</span>
-    </div>
+  <meta name="description" content="mobile-id">
+  <meta name="referrer" content="no-referrer">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="format-detection" content="telephone=no,email=no,address=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="모바일 신분증">
+  <link rel="icon" href="/icon.png?icon.1scohmz4izl0u.png" sizes="192x192" type="image/png">
+  <script src="/_next/static/chunks/0cz1d0mv5g_q7.js" nomodule="" nonce="6b218b84ea1048c39d5890281be0d5fe"></script>
+ </head>
+ <body>
+  <div hidden>
+   <!--$-->
+   <!--/$-->
   </div>
-
-  <!-- 2. 비밀번호 입력 화면 -->
-  <div id="main-screen">
-    <div class="pin-header">
-      <div class="pin-title">
-        모바일 신분증 앱 비밀번호<br>6자리를 입력하세요.
-      </div>
-
-      <div class="dots-container">
-        <div class="dot"></div>
-        <div class="dot"></div>
-        <div class="dot"></div>
-        <div class="dot"></div>
-        <div class="dot"></div>
-        <div class="dot"></div>
-      </div>
-
-      <div class="btn-change-pin">비밀번호 변경</div>
-      <div>
-        <a href="#" class="btn-bio">생체 인증 로그인 &gt;</a>
-      </div>
+  <main class="page-module___qAbUG__root" aria-hidden="true"></main>
+  <!--$-->
+  <!--/$-->
+  <div id="__route_loader" data-open="false" aria-hidden="true" style="position:fixed;inset:0;display:grid;place-items:center;background:rgba(255,255,255,0.92);z-index:2147483647;opacity:0;pointer-events:none;transition:opacity .18s ease">
+   <div class="loading-overlay-module__uQlBbq__shell">
+    <div class="loading-overlay-module__uQlBbq__phoneStage loading-overlay-module__uQlBbq__play">
+     <svg class="loading-overlay-module__uQlBbq__logo" width="240" height="240" viewBox="0 0 240 240" preserveAspectRatio="xMidYMid meet" aria-label="mobile id splash logo" role="img" xmlns="http://www.w3.org/2000/svg">
+      <g transform="translate(-324 -332)">
+       <rect width="240" height="240" transform="translate(324 332)" fill="none"></rect>
+       <g transform="translate(367 384)">
+        <g class="loading-overlay-module__uQlBbq__pieceBlue" data-loader-piece="blue">
+         <path d="M605.56,426.618l-75.408,63.66a18.665,18.665,0,0,1-18.363,3.294l-59.332-21.4,29.118-24.58,40.347,14.55,54.52-46.028Z" transform="translate(-451.457 -382.062)" fill="#0047a0"></path>
+        </g>
+        <g class="loading-overlay-module__uQlBbq__pieceTop">
+         <g class="loading-overlay-module__uQlBbq__pieceDark" data-loader-piece="dark">
+          <path d="M551.98,419.763l-46.216,39.016L472.8,447.211l46.2-39,29.81,10.743Z" transform="translate(-435.3 -368)" fill="#091f2c"></path>
+         </g>
+         <g class="loading-overlay-module__uQlBbq__pieceRed" data-loader-piece="red">
+          <path d="M605.56,407.564l-8.307,7.013-29.117,24.578-2.268-.805-29.81-10.743-46.2,39-29.117-10.5-8.287-2.98,31.593-26.679,43.781-36.964a18.662,18.662,0,0,1,18.359-3.3l19.679,7.094,7.631,2.737Z" transform="translate(-452.5 -386.97)" fill="#e01929"></path>
+         </g>
+        </g>
+       </g>
+      </g>
+     </svg>
     </div>
-
-    <!-- 키패드 -->
-    <div class="keypad">
-      <div class="key">5</div>
-      <div class="key">7</div>
-      <div class="key">1</div>
-      <div class="key">4</div>
-      <div class="key">6</div>
-      <div class="key">3</div>
-      <div class="key">2</div>
-      <div class="key">9</div>
-      <div class="key">0</div>
-      <div class="key action">⌫</div>
-      <div class="key">8</div>
-      <div class="key blue">전체삭제</div>
-    </div>
+   </div>
   </div>
-
-  <script>
-    // 퍼센트 로딩 애니메이션 및 화면 전환
-    let percent = 0;
-    const percentEl = document.getElementById('percent');
-    const loadingScreen = document.getElementById('loading-screen');
-    const mainScreen = document.getElementById('main-screen');
-
-    const timer = setInterval(() => {
-      percent += 5;
-      if (percent <= 100) {
-        percentEl.innerText = percent + '%';
-      }
-      
-      if (percent >= 100) {
-        clearInterval(timer);
-        // 로딩 완료 후 비밀번호 화면으로 전환
-        loadingScreen.style.display = 'none';
-        mainScreen.style.display = 'flex';
-      }
-    }, 100); // 총 약 2초 후 완료됨
-  </script>
-
-</body>
+  <script src="/_next/static/chunks/05vqta0l3bsx2.js" nonce="6b218b84ea1048c39d5890281be0d5fe" id="_R_" async></script>
+  <script nonce="6b218b84ea1048c39d5890281be0d5fe">(self.__next_f=self.__next_f||[]).push([0])</script>
+  <script nonce="6b218b84ea1048c39d5890281be0d5fe">self.__next_f.push([1,"1:\"$Sreact.fragment\"\n2:I[69760,[\"/_next/static/chunks/3tsy9a3391wzv.js\",\"/_next/static/chunks/153tbw49q_1m9.js\"],\"DisableZoom\"]\n3:I[39756,[\"/_next/static/chunks/3tsy9a3391wzv.js\",\"/_next/static/chunks/153tbw49q_1m9.js\"],\"default\"]\n4:I[37457,[\"/_next/static/chunks/3tsy9a3391wzv.js\",\"/_next/static/chunks/153tbw49q_1m9.js\"],\"default\"]\n5:I[87104,[\"/_next/static/chunks/3tsy9a3391wzv.js\",\"/_next/static/chunks/153tbw49q_1m9.js\"],\"NavigationRuntime\"]\n6:I[47257,[\"/_next/static/chunks/3tsy9a3391wzv.js\",\"/_next/static/chunks/153tbw49q_1m9.js\"],\"ClientPageRoot\"]\n7:I[60318,[\"/_next/static/chunks/3tsy9a3391wzv.js\",\"/_next/static/chunks/153tbw49q_1m9.js\",\"/_next/static/chunks/1g1x_nuc8c8dw.js\"],\"default\"]\n8:I[97367,[\"/_next/static/chunks/3tsy9a3391wzv.js\",\"/_next/static/chunks/153tbw49q_1m9.js\"],\"OutletBoundary\"]\n9:\"$Sreact.suspense\"\nb:I[97367,[\"/_next/static/chunks/3tsy9a3391wzv.js\",\"/_next/static/chunks/153tbw49q_1m9.js\"],\"ViewportBoundary\"]\nd:I[97367,[\"/_next/static/chunks/3tsy9a3391wzv.js\",\"/_next/static/chunks/153tbw49q_1m9.js\"],\"MetadataBoundary\"]\nf:I[68027,[\"/_next/static/chunks/3tsy9a3391wzv.js\",\"/_next/static/chunks/153tbw49q_1m9.js\"],\"default\",1]\n10:I[27201,[\"/_next/static/chunks/3tsy9a3391wzv.js\",\"/_next/static/chunks/153tbw49q_1m9.js\"],\"IconMark\"]\n:HL[\"/_next/static/chunks/2oqb0ftodra11.css\",\"style\",{\"nonce\":\"6b218b84ea1048c39d5890281be0d5fe\"}]\n:HL[\"/_next/static/chunks/003ekh-b4_lda.css\",\"style\",{\"nonce\":\"6b218b84ea1048c39d5890281be0d5fe\"}]\n0:{\"P\":null,\"c\":[\"\",\"x4b8e2a?next=%2Fx013bd\"],\"q\":\"?next=%2Fx013bd\",\"i\":false,\"f\":[[[\"\",{\"children\":[\"x4b8e2a\",{\"children\":[\"__PAGE__?{\\\"next\\\":\\\"/x013bd\\\"}\",{}]}]},\"$undefined\",\"$undefined\",16],[[\"$\",\"$1\",\"c\",{\"children\":[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/chunks/2oqb0ftodra11.css\",\"precedence\":\"next\",\"crossOrigin\":\"$undefined\",\"nonce\":\"6b218b84ea1048c39d5890281be0d5fe\"}],[\"$\",\"script\",\"script-0\",{\"src\":\"/_next/static/chunks/3tsy9a3391wzv.js\",\"async\":true,\"nonce\":\"6b218b84ea1048c39d5890281be0d5fe\"}],[\"$\",\"script\",\"script-1\",{\"src\":\"/_next/static/chunks/153tbw49q_1m9.js\",\"async\":true,\"nonce\":\"6b218b84ea1048c39d5890281be0d5fe\"}]],[\"$\",\"html\",null,{\"lang\":\"ko\",\"children\":[\"$\",\"body\",null,{\"children\":[[\"$\",\"$L2\",null,{}],[\"$\",\"$L3\",null,{\"parallelRouterKey\":\"children\",\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"errorScripts\":\"$undefined\",\"template\":[\"$\",\"$L4\",null,{}],\"templateStyles\":\"$undefined\",\"templateScripts\":\"$undefined\",\"notFound\":[[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":404}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],[]],\"forbidden\":\"$undefined\",\"unauthorized\":\"$undefined\"}],[\"$\",\"$L5\",null,{}]]}]}]]}],{\"children\":[[\"$\",\"$1\",\"c\",{\"children\":[null,[\"$\",\"$L3\",null,{\"parallelRouterKey\":\"children\",\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"errorScripts\":\"$undefined\",\"template\":[\"$\",\"$L4\",null,{}],\"templateStyles\":\"$undefined\",\"templateScripts\":\"$undefined\",\"notFound\":\"$undefined\",\"forbidden\":\"$undefined\",\"unauthorized\":\"$undefined\"}]]}],{\"children\":[[\"$\",\"$1\",\"c\",{\"children\":[[\"$\",\"$L6\",null,{\"Component\":\"$7\",\"serverProvidedParams\":{\"searchParams\":{\"next\":\"/x013bd\"},\"params\":{},\""])</script>
+  <script nonce="6b218b84ea1048c39d5890281be0d5fe">self.__next_f.push([1,"promises\":null}}],[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/chunks/003ekh-b4_lda.css\",\"precedence\":\"next\",\"crossOrigin\":\"$undefined\",\"nonce\":\"6b218b84ea1048c39d5890281be0d5fe\"}],[\"$\",\"script\",\"script-0\",{\"src\":\"/_next/static/chunks/1g1x_nuc8c8dw.js\",\"async\":true,\"nonce\":\"6b218b84ea1048c39d5890281be0d5fe\"}]],[\"$\",\"$L8\",null,{\"children\":[\"$\",\"$9\",null,{\"name\":\"Next.MetadataOutlet\",\"children\":\"$@a\"}]}]]}],{},null,false,null]},null,false,null]},null,false,null],[\"$\",\"$1\",\"h\",{\"children\":[null,[\"$\",\"$Lb\",null,{\"children\":\"$Lc\"}],[\"$\",\"div\",null,{\"hidden\":true,\"children\":[\"$\",\"$Ld\",null,{\"children\":[\"$\",\"$9\",null,{\"name\":\"Next.Metadata\",\"children\":\"$Le\"}]}]}],null]}],false]],\"m\":\"$undefined\",\"G\":[\"$f\",[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/chunks/2oqb0ftodra11.css\",\"precedence\":\"next\",\"crossOrigin\":\"$undefined\",\"nonce\":\"6b218b84ea1048c39d5890281be0d5fe\"}]]],\"S\":false,\"h\":null,\"s\":\"$undefined\",\"l\":\"$undefined\",\"p\":\"$undefined\",\"d\":\"$undefined\",\"b\":\"O75Ebrjy_EbAM-dSFlEy0\"}\nc:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"meta\",\"1\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no\"}],[\"$\",\"meta\",\"2\",{\"name\":\"theme-color\",\"content\":\"#ffffff\"}]]\na:null\ne:[[\"$\",\"title\",\"0\",{\"children\":\"모바일 신분증\"}],[\"$\",\"meta\",\"1\",{\"name\":\"description\",\"content\":\"mobile-id\"}],[\"$\",\"meta\",\"2\",{\"name\":\"referrer\",\"content\":\"no-referrer\"}],[\"$\",\"meta\",\"3\",{\"name\":\"robots\",\"content\":\"noindex, nofollow\"}],[\"$\",\"meta\",\"4\",{\"name\":\"format-detection\",\"content\":\"telephone=no,email=no,address=no\"}],[\"$\",\"meta\",\"5\",{\"name\":\"apple-mobile-web-app-capable\",\"content\":\"yes\"}],[\"$\",\"meta\",\"6\",{\"name\":\"apple-mobile-web-app-status-bar-style\",\"content\":\"default\"}],[\"$\",\"meta\",\"7\",{\"name\":\"apple-mobile-web-app-title\",\"content\":\"모바일 신분증\"}],[\"$\",\"link\",\"8\",{\"rel\":\"icon\",\"href\":\"/icon.png?icon.1scohmz4izl0u.png\",\"sizes\":\"192x192\",\"type\":\"image/png\"}],[\"$\",\"$L10\",\"9\",{}]]\n"])</script>
+ </body>
 </html>
-<!-- 스마트폰 홈 화면 추가 및 브라우저 파비콘 로고 설정 -->
-<link rel="apple-touch-icon" href="Screenshot_2...9_Google.jpg">
-<link rel="icon" type="image/jpeg" sizes="192x192" href="Screenshot_2...9_Google.jpg">
-<link rel="shortcut icon" href="Screenshot_2...9_Google.jpg">
-
-
 
