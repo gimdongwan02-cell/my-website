@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>모바일신분증</title>
+    <title>인증 화면 예시</title>
     <style>
         * {
             box-sizing: border-box;
@@ -154,7 +154,7 @@
         }
 
         .key-btn:active {
-            background-color: #f0f0f0;
+            background-color: #e8e8e8;
         }
 
         .key-btn.action-btn {
@@ -194,15 +194,15 @@
         <!-- 1. 스플래시 화면 -->
         <div class="splash-screen" id="splash">
             <div class="splash-logo">APP</div>
-            <div class="splash-title">모바일신분증</div>
-            <div class="splash-desc">어디서나 편하게!</div>
+            <div class="splash-title">서비스 이름</div>
+            <div class="splash-desc">안전하게 연결 중입니다</div>
             <div class="loader"></div>
         </div>
 
         <!-- 2. 인증 화면 및 결과 화면이 표시될 영역 -->
         <div class="auth-screen" id="mainContent">
             <div class="auth-header">
-                <div class="auth-title">모바일신분증앱 비밀번호 6자리를 입력해 주세요</div>
+                <div class="auth-title">비밀번호 6자리를 입력해 주세요</div>
                 <div class="pin-dots">
                     <div class="dot"></div>
                     <div class="dot"></div>
@@ -233,14 +233,16 @@
 
     <!-- 스크립트 (기능 제어) -->
     <script>
-        // 1. 스플래시 화면 자동 닫기 (3초)
+        // 1. 스플래시 화면 자동 닫기 (2.5초)
         window.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 const splash = document.getElementById('splash');
-                splash.style.opacity = '0';
-                setTimeout(() => {
-                    splash.style.visibility = 'hidden';
-                }, 500);
+                if (splash) {
+                    splash.style.opacity = '0';
+                    setTimeout(() => {
+                        splash.style.visibility = 'hidden';
+                    }, 500);
+                }
             }, 2500);
         });
 
@@ -275,7 +277,7 @@
                             showResultScreen();
                         } else {
                             // 틀렸을 경우 알림 후 초기화
-                            alert('비밀번호가 일치하지 않습니다);
+                            alert('비밀번호가 일치하지 않습니다.');
                             clearAll();
                         }
                     }, 200);
@@ -307,24 +309,7 @@
                     <button class="result-btn" onclick="alert('조회 페이지로 이동합니다.')">조회하기</button>
                 </div>
             `;
-        
-    /* 일반 숫자 버튼 */
-.key-button {
-    height: 70px; /* 버튼 높이 */
-    font-size: 24px; /* 숫자 크기 */
-    color: #333333; /* 숫자 색상 */
-    background-color: #ffffff; /* 버튼 배경색 */
-}
-
-/* 전체삭제 버튼 */
-.key-button.clear-key {
-    background-color: #2563eb; /* 전체삭제 버튼 배경색 */
-    color: #ffffff; /* 글자 색상 */
-}
-.key-button:active {
-    background-color: #e8e8e8; /* 누르고 있을 때 색상 */
-}
-                </script>
+        }
+    </script>
 </body>
 </html>
-
