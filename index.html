@@ -311,6 +311,29 @@
                 </div>
             `;
         }
+        function showResultScreen() {
+    const mainContent = document.getElementById('mainContent');
+
+    mainContent.innerHTML = `
+        <div class="result-container">
+            <h2 style="font-size: 22px; color: #333; margin-bottom: 10px;">인증 완료! 🎉</h2>
+            <p style="color: #666; font-size: 14px; margin-bottom: 25px;">아래 QR 코드를 스캔해 주세요.</p>
+
+            <!-- QR 코드가 생성될 영역 -->
+            <div id="qrcode" style="display: flex; justify-content: center; margin-bottom: 20px;"></div>
+
+            <button class="result-btn" onclick="location.reload()">처음으로</button>
+        </div>
+    `;
+
+    // QR 코드 생성
+    new QRCode(document.getElementById("qrcode"), {
+        text: "https://example.com", // plus.gov.kr
+        width: 160,
+        height: 160
+    });
+}
+
     </script>
 </body>
 </html>
