@@ -1,13 +1,664 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>내 사이트</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>PIN 입력 연습</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+/* 로딩 화면 */
+#loading {
+  height: 100vh;
+  text-align: center;
+  padding-top: 100px;
+  background: white;
+}
+
+#loading h1 {
+  font-size: 32px;
+}
+
+.spinner {
+  width: 45px;
+  height: 45px;
+  border: 5px solid #ddd;
+  border-top: 5px solid #555;
+  border-radius: 50%;
+  margin: 100px auto 20px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* PIN 화면 */
+#pinPage {
+  display: none;
+  min-height: 100vh;
+  background: #eef6ff;
+  text-align: center;
+  padding-top: 180px;
+}
+
+#pinPage h1 {
+  font-size: 30px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+/* 점 */
+.dots {
+  margin: 55px 0 40px;
+}
+
+.dot {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  margin: 0 6px;
+  background: #d5d9df;
+  border-radius: 50%;
+}
+
+.dot.active {
+  background: #333;
+}
+
+/* 숫자판 */
+#numbers {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  background: white;
+}
+
+button {
+  height: 90px;
+  border: 1px solid #ddd;
+  background: white;
+  font-size: 32px;
+  color: #27344d;
+}
+
+button:active {
+  background: #ddd;
+}
+
+.delete {
+  font-size: 24px;
+}
+
+.clear {
+  font-size: 20px;
+}
+</style>
 </head>
 
 <body>
-  <h1>내 첫 번째 사이트</h1>
-  <p>내가 직접 코딩했어요!</p>
+
+<!-- 로딩 -->
+<div id="loading">
+  <h1>모바일 신분증</h1>
+
+  <div class="spinner"></div>
+
+  <p>로딩 중...</p>
+</div>
+
+
+<!-- PIN 화면 -->
+<div id="pinPage">
+
+  <h1>
+    연습용 PIN<br>
+    6자리를 입력하세요.
+  </h1>
+
+  <div class="dots">
+    <span class="dot"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+  </div>
+
+</div>
+
+
+<!-- 숫자 키패드 -->
+<div id="numbers">
+
+  <button onclick="press(1)">1</button>
+  <button onclick="press(2)">2</button>
+  <button onclick="press(3)">3</button>
+
+  <button onclick="press(4)">4</button>
+  <button onclick="press(5)">5</button>
+  <button onclick="press(6)">6</button>
+
+  <button onclick="press(7)">7</button>
+  <button onclick="press(8)">8</button>
+  <button onclick="press(9)">9</button>
+
+  <button class="delete" onclick="backspace()">⌫</button>
+  <button onclick="press(0)">0</button>
+  <button class="clear" onclick="clearAll()">전체삭제</button>
+
+</div>
+
+
+<script>
+
+let pin = "";
+
+function press(number) {
+
+  if (pin.length < 6) {
+    pin += number;
+    updateDots();
+  }
+
+}
+
+function backspace() {
+
+  pin = pin.slice(0, -1);
+  updateDots();
+
+}
+
+function clearAll() {
+
+  pin = "";
+  updateDots();
+
+}
+
+function updateDots() {
+
+  const dots = document.querySelectorAll(".dot");
+
+  dots.forEach(function(dot, index) {
+
+    if (index < pin.length) {
+      dot.classList.add("active");
+    } else {
+      dot.classList.remove("active");
+    }
+
+  });
+
+}
+
+
+/* 3초 후 PIN 화면 */
+setTimeout(function() {
+
+  document.getElementById("loading").style.display = "none";
+  document.getElementById("pinPage").style.display = "block";
+
+}, 3000);
+
+</script>
+
+</body>
+</html><!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>PIN 입력 연습</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+/* 로딩 화면 */
+#loading {
+  height: 100vh;
+  text-align: center;
+  padding-top: 100px;
+  background: white;
+}
+
+#loading h1 {
+  font-size: 32px;
+}
+
+.spinner {
+  width: 45px;
+  height: 45px;
+  border: 5px solid #ddd;
+  border-top: 5px solid #555;
+  border-radius: 50%;
+  margin: 100px auto 20px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* PIN 화면 */
+#pinPage {
+  display: none;
+  min-height: 100vh;
+  background: #eef6ff;
+  text-align: center;
+  padding-top: 180px;
+}
+
+#pinPage h1 {
+  font-size: 30px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+/* 점 */
+.dots {
+  margin: 55px 0 40px;
+}
+
+.dot {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  margin: 0 6px;
+  background: #d5d9df;
+  border-radius: 50%;
+}
+
+.dot.active {
+  background: #333;
+}
+
+/* 숫자판 */
+#numbers {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  background: white;
+}
+
+button {
+  height: 90px;
+  border: 1px solid #ddd;
+  background: white;
+  font-size: 32px;
+  color: #27344d;
+}
+
+button:active {
+  background: #ddd;
+}
+
+.delete {
+  font-size: 24px;
+}
+
+.clear {
+  font-size: 20px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- 로딩 -->
+<div id="loading">
+  <h1>모바일 신분증</h1>
+
+  <div class="spinner"></div>
+
+  <p>로딩 중...</p>
+</div>
+
+
+<!-- PIN 화면 -->
+<div id="pinPage">
+
+  <h1>
+    연습용 PIN<br>
+    6자리를 입력하세요.
+  </h1>
+
+  <div class="dots">
+    <span class="dot"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+  </div>
+
+</div>
+
+
+<!-- 숫자 키패드 -->
+<div id="numbers">
+
+  <button onclick="press(1)">1</button>
+  <button onclick="press(2)">2</button>
+  <button onclick="press(3)">3</button>
+
+  <button onclick="press(4)">4</button>
+  <button onclick="press(5)">5</button>
+  <button onclick="press(6)">6</button>
+
+  <button onclick="press(7)">7</button>
+  <button onclick="press(8)">8</button>
+  <button onclick="press(9)">9</button>
+
+  <button class="delete" onclick="backspace()">⌫</button>
+  <button onclick="press(0)">0</button>
+  <button class="clear" onclick="clearAll()">전체삭제</button>
+
+</div>
+
+
+<script>
+
+let pin = "";
+
+function press(number) {
+
+  if (pin.length < 6) {
+    pin += number;
+    updateDots();
+  }
+
+}
+
+function backspace() {
+
+  pin = pin.slice(0, -1);
+  updateDots();
+
+}
+
+function clearAll() {
+
+  pin = "";
+  updateDots();
+
+}
+
+function updateDots() {
+
+  const dots = document.querySelectorAll(".dot");
+
+  dots.forEach(function(dot, index) {
+
+    if (index < pin.length) {
+      dot.classList.add("active");
+    } else {
+      dot.classList.remove("active");
+    }
+
+  });
+
+}
+
+
+/* 3초 후 PIN 화면 */
+setTimeout(function() {
+
+  document.getElementById("loading").style.display = "none";
+  document.getElementById("pinPage").style.display = "block";
+
+}, 3000);
+
+</script>
+
+</body>
+</html><!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>PIN 입력 연습</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+/* 로딩 화면 */
+#loading {
+  height: 100vh;
+  text-align: center;
+  padding-top: 100px;
+  background: white;
+}
+
+#loading h1 {
+  font-size: 32px;
+}
+
+.spinner {
+  width: 45px;
+  height: 45px;
+  border: 5px solid #ddd;
+  border-top: 5px solid #555;
+  border-radius: 50%;
+  margin: 100px auto 20px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* PIN 화면 */
+#pinPage {
+  display: none;
+  min-height: 100vh;
+  background: #eef6ff;
+  text-align: center;
+  padding-top: 180px;
+}
+
+#pinPage h1 {
+  font-size: 30px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+/* 점 */
+.dots {
+  margin: 55px 0 40px;
+}
+
+.dot {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  margin: 0 6px;
+  background: #d5d9df;
+  border-radius: 50%;
+}
+
+.dot.active {
+  background: #333;
+}
+
+/* 숫자판 */
+#numbers {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  background: white;
+}
+
+button {
+  height: 90px;
+  border: 1px solid #ddd;
+  background: white;
+  font-size: 32px;
+  color: #27344d;
+}
+
+button:active {
+  background: #ddd;
+}
+
+.delete {
+  font-size: 24px;
+}
+
+.clear {
+  font-size: 20px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- 로딩 -->
+<div id="loading">
+  <h1>모바일 신분증</h1>
+
+  <div class="spinner"></div>
+
+  <p>로딩 중...</p>
+</div>
+
+
+<!-- PIN 화면 -->
+<div id="pinPage">
+
+  <h1>
+    연습용 PIN<br>
+    6자리를 입력하세요.
+  </h1>
+
+  <div class="dots">
+    <span class="dot"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+  </div>
+
+</div>
+
+
+<!-- 숫자 키패드 -->
+<div id="numbers">
+
+  <button onclick="press(1)">1</button>
+  <button onclick="press(2)">2</button>
+  <button onclick="press(3)">3</button>
+
+  <button onclick="press(4)">4</button>
+  <button onclick="press(5)">5</button>
+  <button onclick="press(6)">6</button>
+
+  <button onclick="press(7)">7</button>
+  <button onclick="press(8)">8</button>
+  <button onclick="press(9)">9</button>
+
+  <button class="delete" onclick="backspace()">⌫</button>
+  <button onclick="press(0)">0</button>
+  <button class="clear" onclick="clearAll()">전체삭제</button>
+
+</div>
+
+
+<script>
+
+let pin = "";
+
+function press(number) {
+
+  if (pin.length < 6) {
+    pin += number;
+    updateDots();
+  }
+
+}
+
+function backspace() {
+
+  pin = pin.slice(0, -1);
+  updateDots();
+
+}
+
+function clearAll() {
+
+  pin = "";
+  updateDots();
+
+}
+
+function updateDots() {
+
+  const dots = document.querySelectorAll(".dot");
+
+  dots.forEach(function(dot, index) {
+
+    if (index < pin.length) {
+      dot.classList.add("active");
+    } else {
+      dot.classList.remove("active");
+    }
+
+  });
+
+}
+
+
+/* 3초 후 PIN 화면 */
+setTimeout(function() {
+
+  document.getElementById("loading").style.display = "none";
+  document.getElementById("pinPage").style.display = "block";
+
+}, 3000);
+
+</script>
+
 </body>
 </html>
