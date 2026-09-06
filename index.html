@@ -20,17 +20,19 @@
         }
 
         .mobile-container {
-            width: 100%;
-            max-width: 390px;
-            height: 844px;
-            background-color: #ffffff;
-            border-radius: 30px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
+            .mobile-container {
+    width: 100vw;
+    height: 100vh;
+    background-color: #ffffff;
+    border-radius: 0; /* 모바일 풀화면이므로 라운드 제거 */
+    box-shadow: none; /* 그림자 제거 */
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column
+            }
+
+        
 
         /* 스플래시 화면 */
         .splash-screen {
