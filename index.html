@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>인증 화면 예시</title>
+    <!-- 1. QR 코드 라이브러리 추가 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
         * {
             box-sizing: border-box;
@@ -33,7 +35,7 @@
             flex-direction: column;
         }
 
-        /* 1. 스플래시 화면 */
+        /* 스플래시 화면 */
         .splash-screen {
             position: absolute;
             top: 0;
@@ -90,7 +92,7 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* 2. 비밀번호 입력 화면 */
+        /* 비밀번호 입력 화면 */
         .auth-screen {
             flex: 1;
             display: flex;
@@ -162,10 +164,10 @@
             color: #666;
         }
 
-        /* 조회하기 화면 스타일 */
+        /* QR 결과 화면 */
         .result-container {
             text-align: center;
-            margin-top: 120px;
+            margin-top: 100px;
             padding: 0 20px;
         }
 
@@ -191,19 +193,18 @@
 <body>
 
     <div class="mobile-container">
-        <!-- 1. 스플래시 화면 -->
+        <!-- 스플래시 화면 -->
         <div class="splash-screen" id="splash">
             <div class="splash-logo">APP</div>
-            <div class="splash-title">모바일신분증</div>
+            <div class="splash-title">서비스 인증</div>
             <div class="splash-desc">어디서나 편하게</div>
             <div class="loader"></div>
         </div>
 
-        <!-- 2. 인증 화면 및 결과 화면이 표시될 영역 -->
+        <!-- 인증 및 QR 화면 영역 -->
         <div class="auth-screen" id="mainContent">
             <div class="auth-header">
-                <div class="auth-title">모바일신분증앱 
-                    비밀번호6자리를 입력해 주세요</div>
+                <div class="auth-title">비밀번호 6자리를 입력해 주세요</div>
                 <div class="pin-dots">
                     <div class="dot"></div>
                     <div class="dot"></div>
@@ -214,7 +215,6 @@
                 </div>
             </div>
 
-            <!-- 숫자 키패드 -->
             <div class="keypad">
                 <button class="key-btn" onclick="pressKey('1')">1</button>
                 <button class="key-btn" onclick="pressKey('2')">2</button>
@@ -232,9 +232,8 @@
         </div>
     </div>
 
-    <!-- 스크립트 (기능 제어) -->
     <script>
-        // 1. 스플래시 화면 자동 닫기 (2.5초)
+        // 스플래시 화면 닫기
         window.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 const splash = document.getElementById('splash');
@@ -247,10 +246,10 @@
             }, 2500);
         });
 
-        // 2. 키패드 및 비밀번호 검증 로직
+        // 비밀번호 로직
         let inputPin = [];
         const maxLen = 6;
-        const targetPin = "777777"; // 설정된 정답 비밀번호
+        const targetPin = "777777";
         const dots = document.querySelectorAll('.dot');
 
         function updateDots() {
@@ -268,16 +267,13 @@
                 inputPin.push(num);
                 updateDots();
 
-                // 6자리가 모두 입력되면 확인
                 if (inputPin.length === maxLen) {
                     const enteredPin = inputPin.join('');
 
                     setTimeout(() => {
                         if (enteredPin === targetPin) {
-                            // 777777 입력 시 조회하기 화면으로 전환
                             showResultScreen();
                         } else {
-                            // 틀렸을 경우 알림 후 초기화
                             alert('비밀번호가 일치하지 않습니다.');
                             clearAll();
                         }
@@ -298,39 +294,29 @@
             updateDots();
         }
 
-        // 3. 인증 성공 시 화면 전환 함수
+        // 인증 성공 시 QR 화면 생성 함수
         function showResultScreen() {
             const mainContent = document.getElementById('mainContent');
             
-            // 화면 내용을 조회하기 버튼 형태로 변경
+            // 1. 화면 UI 생성
             mainContent.innerHTML = `
                 <div class="result-container">
                     <h2 style="font-size: 22px; color: #333; margin-bottom: 10px;">인증 완료! 🎉</h2>
-                    <p style="color: #666; font-size: 15px;">비밀번호가 정상적으로 확인되었습니다.</p>
-                    <button class="result-btn" onclick="alert('조회 페이지로 이동합니다.')">조회하기</button>
+                    <p style="color: #666; font-size: 14px; margin-bottom: 25px;">아래 QR 코드를 스캔해 주세요.</p>
+                    
+                    <div id="qrcode" style="display: flex; justify-content: center; margin-bottom: 20px;"></div>
+
+                    <button class="result-btn" onclick="location.reload()">처음으로</button>
                 </div>
             `;
+
+            // 2. QR 코드 생성
+            new QRCode(document.getElementById("qrcode"), {
+                text: "https://www.seoul.go.kr",
+                width: 160,
+                height: 160
+            });
         }
-    // 1. 화면에 QR 코드가 들어갈 영역(div id="qrcode") 만들기
-    mainContent.innerHTML = `
-        <div class="result-container">
-            <h2 style="font-size: 22px; color: #333; margin-bottom: 10px;">인증 완료! 🎉</h2>
-            <p style="color: #666; font-size: 14px; margin-bottom: 25px;">아래 QR 코드를 스캔해 주세요.</p>
-            
-            <!-- QR 코드가 그려질 박스 -->
-            <div id="qrcode" style="display: flex; justify-content: center; margin-bottom: 20px;"></div>
-
-            <button class="result-btn" onclick="location.reload()">처음으로</button>
-        </div>
-    `;
-
-    // 2. QR 코드 생성 실행
-    new QRCode(document.getElementById("qrcode"), {
-        text: "https://www.seoul.go.kr",
-        width: 160,
-        height: 160
-    });
-}
-
+    </script>
 </body>
 </html>
