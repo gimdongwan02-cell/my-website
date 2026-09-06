@@ -275,7 +275,7 @@
                             showResultScreen();
                         } else {
                             // 틀렸을 경우 알림 후 초기화
-                            alert('비밀번호가 일치하지 않습니다. (정답: 777777)');
+                            alert('비밀번호가 일치하지 않습니다);
                             clearAll();
                         }
                     }, 200);
@@ -307,7 +307,20 @@
                     <button class="result-btn" onclick="alert('조회 페이지로 이동합니다.')">조회하기</button>
                 </div>
             `;
-        }
-    </script>
-</body>
-</html>
+        
+    /* 일반 숫자 버튼 */
+.key-button {
+    height: 70px; /* 버튼 높이 */
+    font-size: 24px; /* 숫자 크기 */
+    color: #333333; /* 숫자 색상 */
+    background-color: #ffffff; /* 버튼 배경색 */
+}
+
+/* 전체삭제 버튼 */
+.key-button.clear-key {
+    background-color: #2563eb; /* 전체삭제 버튼 배경색 */
+    color: #ffffff; /* 글자 색상 */
+}
+.key-button:active {
+    background-color: #e8e8e8; /* 누르고 있을 때 색상 */
+}
