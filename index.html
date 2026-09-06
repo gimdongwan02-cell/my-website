@@ -7,7 +7,7 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>인증 화면 예시</title>
+    <title>모바일신분증</title>
     <!-- 1. QR 코드 라이브러리 추가 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
@@ -200,8 +200,8 @@
         <!-- 스플래시 화면 -->
         <div class="splash-screen" id="splash">
             <div class="splash-logo">APP</div>
-            <div class="splash-title">서비스 인증</div>
-            <div class="splash-desc">어디서나 편하게</div>
+            <div class="splash-title">모바일신분증</div>
+            <div class="splash-desc">휴대폰 하나로끝!</div>
             <div class="loader"></div>
         </div>
 
@@ -305,8 +305,8 @@
             // 1. 화면 UI 생성
             mainContent.innerHTML = `
                 <div class="result-container">
-                    <h2 style="font-size: 22px; color: #333; margin-bottom: 10px;">인증 완료! 🎉</h2>
-                    <p style="color: #666; font-size: 14px; margin-bottom: 25px;">아래 QR 코드를 스캔해 주세요.</p>
+                    <h2 style="font-size: 22px; color: #333; margin-bottom: 10px;">QR코드인증</h2>
+                    <p style="color: #666; font-size: 14px; margin-bottom: 25px;">QR 코드를 스캔해 주세요.</p>
                     
                     <div id="qrcode" style="display: flex; justify-content: center; margin-bottom: 20px;"></div>
 
