@@ -1,100 +1,419 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <title>모바일신분증</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f4f4f9;
-            margin: 0;
-        }
-        .container {
-            background: #ffffff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            width: 320px;
-        }
-        input[type="password"] {
-            width: 80%;
-            padding: 10px;
-            margin-bottom: 15px;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            text-align: center;
-        }
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        .error-message {
-            color: red;
-            font-size: 14px;
-            margin-top: 10px;
-            display: none;
-        }
-        .result-content {
-            display: none;
-            margin-top: 20px;
-            padding: 15px;
-            background-color: #e9ecef;
-            border-radius: 4px;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>모바일 신분증</title>
+
+<style>
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, "Noto Sans KR", sans-serif;
+  background: white;
+  color: #111;
+}
+
+.screen {
+  min-height: 100vh;
+  display: none;
+}
+
+.active {
+  display: block;
+}
+
+/* 로딩 */
+#loading {
+  text-align: center;
+  padding-top: 120px;
+}
+
+.logo {
+  font-size: 32px;
+  font-weight: 800;
+  margin: 20px 0 180px;
+}
+
+.loading-text {
+  font-size: 27px;
+  font-weight: 800;
+  line-height: 1.6;
+}
+
+.sub {
+  font-size: 20px;
+  margin-top: 25px;
+  line-height: 1.6;
+}
+
+.spinner {
+  width: 42px;
+  height: 42px;
+  border: 5px solid #ddd;
+  border-top-color: #777;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 170px auto 15px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* 비밀번호 */
+#pin {
+  background: #eef6ff;
+  min-height: 100vh;
+  padding-top: 190px;
+  text-align: center;
+}
+
+.pin-title {
+  font-size: 28px;
+  line-height: 1.5;
+}
+
+.dots {
+  display: flex;
+  justify-content: center;
+  gap: 22px;
+  margin: 65px 0;
+}
+
+.dot {
+  width: 32px;
+  height: 32px;
+  background: #d5dbe3;
+  border-radius: 50%;
+}
+
+.dot.filled {
+  background: #555;
+}
+
+.change {
+  display: inline-block;
+  padding: 15px 35px;
+  border: 1px solid #777;
+  border-radius: 35px;
+  background: transparent;
+  font-size: 20px;
+}
+
+.bio {
+  margin-top: 25px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.keypad {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  background: white;
+}
+
+.key {
+  height: 95px;
+  border: 1px solid #ddd;
+  background: white;
+  font-size: 36px;
+}
+
+.key:active {
+  background: #eee;
+}
+
+.delete {
+  background: #ddd;
+  font-size: 25px;
+}
+
+.clear {
+  background: #4596f2;
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+/* 목록 */
+#list {
+  background: #fff;
+}
+
+.header {
+  text-align: center;
+  font-size: 30px;
+  font-weight: 800;
+  padding: 35px 0 25px;
+}
+
+.cards {
+  padding: 0 20px 40px;
+}
+
+.card {
+  border-radius: 30px;
+  padding: 28px;
+  margin-bottom: 25px;
+  background: linear-gradient(135deg,#fff,#f5f5ef);
+  box-shadow: 0 3px 12px #ddd;
+  border: 1px solid #eee;
+}
+
+.card h2 {
+  margin: 0 0 25px;
+  font-size: 27px;
+}
+
+.line {
+  height: 1px;
+  background: #aaa;
+  margin-bottom: 20px;
+}
+
+.info {
+  font-size: 17px;
+  line-height: 2;
+}
+
+.info b {
+  font-size: 19px;
+  margin-left: 25px;
+}
+
+.buttons {
+  display: flex;
+  gap: 15px;
+  margin-top: 22px;
+}
+
+.buttons button {
+  flex: 1;
+  height: 65px;
+  border: 0;
+  border-radius: 18px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.issue {
+  background: #eee;
+}
+
+.view {
+  background: #555;
+  color: white;
+}
+
+.demo-label {
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  z-index: 99;
+  padding: 5px 9px;
+  border-radius: 5px;
+  background: #d00;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+}
+</style>
 </head>
+
 <body>
 
-<div class="container">
-    <h2>조회하기</h2>
-    
-    <!-- 비밀번호 입력 창 -->
-    <div id="loginSection">
-        <input type="password" id="passwordInput" placeholder="비밀번호 입력">
-        <br>
-        <button onclick="checkPassword()">조회하기</button>
-        <p id="errorMsg" class="error-message">비밀번호가 틀렸습니다.</p>
+<div class="demo-label">DEMO</div>
+
+<!-- 로딩 화면 -->
+<section id="loading" class="screen active">
+  <div class="logo">모바일 신분증</div>
+
+  <div class="loading-text">
+    신분증이 스마트폰 속으로 쏙!
+  </div>
+
+  <div class="sub">
+    온·오프라인 어디서나<br>
+    편리하게 이용가능
+  </div>
+
+  <div class="spinner"></div>
+  <div>58%</div>
+</section>
+
+
+<!-- 비밀번호 화면 -->
+<section id="pin" class="screen">
+
+  <div class="pin-title">
+    모바일 신분증 앱 비밀번호<br>
+    6자리를 입력하세요.
+  </div>
+
+  <div class="dots">
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+  </div>
+
+  <div class="change">비밀번호 변경</div>
+
+  <div class="bio">
+    생체 인증 로그인　›
+  </div>
+
+  <div class="keypad">
+    <button class="key" onclick="press(5)">5</button>
+    <button class="key" onclick="press(7)">7</button>
+    <button class="key" onclick="press(1)">1</button>
+
+    <button class="key" onclick="press(4)">4</button>
+    <button class="key" onclick="press(6)">6</button>
+    <button class="key" onclick="press(3)">3</button>
+
+    <button class="key" onclick="press(2)">2</button>
+    <button class="key" onclick="press(9)">9</button>
+    <button class="key" onclick="press(0)">0</button>
+
+    <button class="key delete" onclick="del()">⌫</button>
+    <button class="key" onclick="press(8)">8</button>
+    <button class="key clear" onclick="clearPin()">전체삭제</button>
+  </div>
+</section>
+
+
+<!-- 신분증 목록 -->
+<section id="list" class="screen">
+
+  <div class="header">신분증 목록 조회</div>
+
+  <div class="cards">
+
+    <div class="card">
+      <h2>모바일 주민등록증</h2>
+      <div class="line"></div>
+
+      <div class="info">
+        발급대상 <b>주민등록증 소지자</b><br>
+        준 비 물 <b>IC 주민등록증</b>
+      </div>
+
+      <div class="buttons">
+        <button class="issue">발급방법</button>
+        <button class="view">조회하기</button>
+      </div>
     </div>
 
-    <!-- 비밀번호 인증 성공 시 표시될 조회 결과 -->
-    <div id="resultContent" class="result-content">
-        <h3>조회 결과</h3>
-        <p>인증에 성공했습니다!</p>
-        <p>비밀번호 <strong>10000</strong>이 확인되어 숨겨진 데이터가 출력됩니다.</p>
+
+    <div class="card">
+      <h2>모바일 운전면허증</h2>
+      <div class="line"></div>
+
+      <div class="info">
+        발급대상 <b>자동차운전면허 소지자</b><br>
+        준 비 물 <b>IC 운전면허증</b>
+      </div>
+
+      <div class="buttons">
+        <button class="issue">발급방법</button>
+        <button class="view">조회하기</button>
+      </div>
     </div>
-</div>
+
+
+    <div class="card">
+      <h2>모바일 국가보훈등록증</h2>
+      <div class="line"></div>
+
+      <div class="info">
+        발급대상 <b>국가보훈대상자</b><br>
+        준 비 물 <b>IC 국가보훈등록증</b>
+      </div>
+
+      <div class="buttons">
+        <button class="issue">발급방법</button>
+        <button class="view">조회하기</button>
+      </div>
+    </div>
+
+
+    <div class="card">
+      <h2>모바일 외국인등록증</h2>
+      <div class="line"></div>
+
+      <div class="info">
+        발급대상 <b>외국인등록증 소지자</b><br>
+        준 비 물 <b>IC 외국인등록증</b>
+      </div>
+
+      <div class="buttons">
+        <button class="issue">발급방법</button>
+        <button class="view">조회하기</button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
 
 <script>
-    function checkPassword() {
-        const passwordInput = document.getElementById('passwordInput').value;
-        const errorMsg = document.getElementById('errorMsg');
-        const resultContent = document.getElementById('resultContent');
+let pin = "";
 
-        // 비밀번호가 '10000'인지 확인
-        if (passwordInput === "10000") {
-            errorMsg.style.display = "none";
-            resultContent.style.display = "block";
-        } else {
-            resultContent.style.display = "none";
-            errorMsg.style.display = "block";
-        }
-    }
+function press(num) {
+  if (pin.length >= 6) return;
+
+  pin += num;
+  updateDots();
+
+  // 비밀번호: 000000
+  if (pin === "000000") {
+    setTimeout(() => {
+      show("list");
+    }, 250);
+  }
+}
+
+function del() {
+  pin = pin.slice(0, -1);
+  updateDots();
+}
+
+function clearPin() {
+  pin = "";
+  updateDots();
+}
+
+function updateDots() {
+  document.querySelectorAll(".dot").forEach((dot, i) => {
+    dot.classList.toggle("filled", i < pin.length);
+  });
+}
+
+function show(id) {
+  document.querySelectorAll(".screen").forEach(s => {
+    s.classList.remove("active");
+  });
+
+  document.getElementById(id).classList.add("active");
+}
+
+// 로딩 → 비밀번호
+setTimeout(() => {
+  show("pin");
+}, 2500);
 </script>
 
 </body>
 </html>
-
